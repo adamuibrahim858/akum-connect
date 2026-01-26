@@ -1,102 +1,74 @@
+import 'package:akum_connet/pages/edit_profile.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import '../models/student_info.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final box = Hive.box<Student>('students');
+
+    if (box.isEmpty) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Profile'),
+          backgroundColor: Colors.green,
+        ),
+        body: const Center(child: Text('No student data found!')),
+      );
+    }
+
+    // Get the last registered student
+    final student = box.getAt(box.length - 1)!;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.green,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.white),
         actions: [
           IconButton(
             icon: const Icon(Icons.edit),
             onPressed: () {
-              // TODO: Add edit profile functionality
-              debugPrint("Edit Profile Pressed");
+              final box = Hive.box<Student>('students');
+              final studentIndex = box.length - 1; // last student
+              final student = box.getAt(studentIndex)!;
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) =>
+                      EditProfilePage(student: student, index: studentIndex),
+                ),
+              );
             },
           ),
-          IconButton(
-            icon: const Icon(Icons.more_vert),
-            onPressed: () {},
-          ),
+
+          IconButton(icon: const Icon(Icons.more_vert), onPressed: () {}),
         ],
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // Profile Header
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-              ),
-              child: Column(
-                children: const [
-                  CircleAvatar(
-                    radius: 50,
-                    backgroundImage:
-                    NetworkImage("https://i.pravatar.cc/150?img=8"),
-                  ),
-                  SizedBox(height: 12),
-                  Text(
-                    "Ibrahim Adamu",
-                    style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    "adamuibrahim858@gmail.com | 0706 510 6233",
-                    style: TextStyle(color: Colors.black54),
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 20),
+            
+            const SizedBox(height: 5),
 
             // Profile Info Section
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 children: [
-                  profileTile("Full Name", "Ibrahim Adamu", Icons.person),
-                  profileTile("Matric Number", "AKU24/FE/CSE/2001", Icons.badge),
-                  profileTile("Phone Number", "0706 510 6233", Icons.phone),
-                  profileTile("Email", "adamuibrahim858@gmail.com", Icons.email),
-                  profileTile("Faculty", "Education", Icons.school),
-                  profileTile("Department", "Computer Science Education", Icons.computer),
+                  profileTile("Full Name", student.fullName, Icons.person),
+                  profileTile("Matric Number", student.matricNo, Icons.badge),
+                  profileTile("Phone Number", student.phone, Icons.phone),
+                  profileTile("Email", student.email, Icons.email),
+                  profileTile("Faculty", student.faculty, Icons.school),
+                  profileTile("Department", student.department, Icons.computer),
+                  profileTile("Course", student.course, Icons.book),
                 ],
-              ),
-            ),
-
-            const SizedBox(height: 30),
-
-            // Logout Button
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size.fromHeight(50),
-                  backgroundColor: Colors.green,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                icon: const Icon(Icons.logout, color: Colors.white),
-                label: const Text(
-                  "Log Out",
-                  style: TextStyle(fontSize: 16, color: Colors.white),
-                ),
-                onPressed: () {
-                  debugPrint("Logout Pressed");
-                },
               ),
             ),
           ],
@@ -113,7 +85,7 @@ class ProfilePage extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: Colors.indigo.withOpacity(0.1),
+          backgroundColor: Colors.green.withOpacity(0.1),
           child: Icon(icon, color: Colors.green),
         ),
         title: Text(
@@ -123,7 +95,10 @@ class ProfilePage extends StatelessWidget {
         subtitle: Text(
           value,
           style: const TextStyle(
-              fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: Colors.black,
+          ),
         ),
       ),
     );

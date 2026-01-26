@@ -13,12 +13,17 @@ class ChatInbox extends StatelessWidget {
           // Custom Header (instead of AppBar)
           Container(
             color: Colors.white,
-            padding: const EdgeInsets.only(top: 48, left: 16, right: 16, bottom: 12),
+            padding: const EdgeInsets.only(
+              top: 48,
+              left: 16,
+              right: 16,
+              bottom: 12,
+            ),
             child: Row(
               children: [
                 const CircleAvatar(
                   radius: 16,
-                  backgroundColor: Colors.green,
+                  backgroundColor: Colors.red,
                   child: Icon(Icons.chat_bubble, color: Colors.white, size: 16),
                 ),
                 const SizedBox(width: 10),
@@ -26,14 +31,15 @@ class ChatInbox extends StatelessWidget {
                   child: const Text(
                     "AKUM CONNECT",
                     style: TextStyle(
-                        letterSpacing: 3,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.green),
+                      letterSpacing: 3,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.red,
+                    ),
                   ),
                 ),
                 const Spacer(),
-                const Icon(Icons.search, color: Colors.green),
+                const Icon(Icons.search, color: Colors.red),
               ],
             ),
           ),
@@ -48,7 +54,7 @@ class ChatInbox extends StatelessWidget {
                   time: "${5 + index}m",
                   avatar: CircleAvatar(
                     backgroundColor:
-                    Colors.primaries[index % Colors.primaries.length],
+                        Colors.primaries[index % Colors.primaries.length],
                     child: Text(
                       "U${index + 1}",
                       style: const TextStyle(color: Colors.white),
@@ -112,9 +118,13 @@ class ChatTile extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(name,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.w600, fontSize: 16)),
+                Text(
+                  name,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                  ),
+                ),
                 const SizedBox(height: 2),
                 Text(
                   message,
@@ -127,8 +137,10 @@ class ChatTile extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(time,
-                  style: TextStyle(fontSize: 12, color: Colors.grey[500])),
+              Text(
+                time,
+                style: TextStyle(fontSize: 12, color: Colors.grey[500]),
+              ),
               const Icon(Icons.done_all, size: 18, color: Colors.blue),
             ],
           ),

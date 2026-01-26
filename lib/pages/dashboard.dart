@@ -1,7 +1,34 @@
 import 'package:flutter/material.dart';
+import 'marketplace/marketplace_page.dart';
+import 'news/news_list_page.dart';
 
-class DashboardPage extends StatelessWidget {
+import 'package:hive_flutter/hive_flutter.dart';
+import '../models/timetable_entry.dart';
+import '../services/lecture_notification_service.dart';
+
+class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
+
+  @override
+  State<DashboardPage> createState() => _DashboardPageState();
+}
+
+class _DashboardPageState extends State<DashboardPage> {
+  @override
+  void initState() {
+    super.initState();
+    _scheduleTimetableNotifications();
+  }
+
+  Future<void> _scheduleTimetableNotifications() async {
+    try {
+      final box = Hive.box<TimetableEntry>('timetable');
+      final entries = box.values.toList();
+      await LectureNotificationService.scheduleNotifications(entries);
+    } catch (e) {
+      debugPrint("Error scheduling notifications from dashboard: $e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +43,7 @@ class DashboardPage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
             decoration: const BoxDecoration(
               color: Colors.green,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(40),
-              ),
+              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(40)),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -29,9 +54,10 @@ class DashboardPage extends StatelessWidget {
                     Text(
                       "Hi Student!",
                       style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold),
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     SizedBox(height: 5),
                     Text(
@@ -40,16 +66,17 @@ class DashboardPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                const CircleAvatar(
-                  radius: 28,
-                  backgroundImage: NetworkImage(
-                      "https://i.pravatar.cc/150?img=3"), // sample avatar
-                ),
+                // const CircleAvatar(
+                //   radius: 32,
+                //   backgroundImage: AssetImage(
+                //     "assets/images/akumlogo.png",
+                //   ), // sample avatar
+                // ),
               ],
             ),
           ),
 
-          const SizedBox(height: 20),
+          // const SizedBox(height: 1),
 
           // Dashboard Grid
           Expanded(
@@ -60,74 +87,53 @@ class DashboardPage extends StatelessWidget {
                 crossAxisSpacing: 20,
                 mainAxisSpacing: 20,
                 children: [
+                  dashboardCard(Icons.person, "Profile", Colors.blue, () {
+                    // debugPrint("Profile tapped");
+                    Navigator.pushNamed(context, '/profile');
+                  }),
+                  dashboardCard(Icons.grade, "Result", Colors.green, () {
+                    // debugPrint("Result tapped");
+                    Navigator.pushNamed(context, '/result');
+                  }),
+                  dashboardCard(Icons.schedule, "Timetable", Colors.orange, () {
+                    // debugPrint("Timetable tapped");
+                    Navigator.pushNamed(context, '/timetable');
+                  }),
+                  dashboardCard(Icons.article, "News", Colors.purple, () {
+                    // debugPrint("News tapped");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const NewsListPage(),
+                      ),
+                    );
+                  }),
                   dashboardCard(
-                    Icons.person,
-                    "Profile",
-                    Colors.blue,
-                        () {
-                      // debugPrint("Profile tapped");
-                      Navigator.pushNamed(context, '/profile');
-                        },
-                  ),
-                  dashboardCard(
-                    Icons.grade,
-                    "Result",
-                    Colors.green,
-                        () {
-                      debugPrint("Result tapped");
-                    },
-                  ),
-                  dashboardCard(
-                    Icons.schedule,
-                    "Timetable",
-                    Colors.orange,
-                        () {
-                      debugPrint("Timetable tapped");
-                    },
-                  ),
-                  dashboardCard(
-                    Icons.article,
-                    "News",
-                    Colors.purple,
-                        () {
-                      debugPrint("News tapped");
-                    },
-                  ),
-                  dashboardCard(
-                    Icons.check_circle,
-                    "To-Dos",
+                    Icons.assignment_turned_in,
+                    "Exam Timetable",
                     Colors.teal,
-                        () {
-                      // debugPrint("To-Dos tapped");
-                      Navigator.pushNamed(context, '/to-dos');
-
-                        },
-                  ),
-                  dashboardCard(
-                    Icons.chat,
-                    "Chat Room",
-                    Colors.red,
-                        () {
-                      // debugPrint("Chat Room tapped");
-                          Navigator.pushNamed(context, '/chats');
-                        },
-                  ),
-                  dashboardCard(
-                    Icons.note,
-                    "Notes",
-                    Colors.brown,
-                        () {
-                      debugPrint("Notes tapped");
+                    () {
+                      // debugPrint("Exam Time Table tapped");
+                      Navigator.pushNamed(context, '/exam-timetable');
                     },
                   ),
-                  dashboardCard(
-                    Icons.store,
-                    "Market Place",
-                    Colors.indigo,
-                        () {
-                      debugPrint("Market Place tapped");
-                    },
-                  ),
+                  dashboardCard(Icons.note, "Notes", Colors.brown, () {
+                    // debugPrint("Notes tapped");
+                    Navigator.pushNamed(context, '/notes');
+                  }),
+                  dashboardCard(Icons.store, "Market Place", Colors.indigo, () {
+                    // debugPrint("Market Place tapped");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const MarketplacePage(),
+                      ),
+                    );
+                  }),
+                  dashboardCard(Icons.info, "About", Colors.red, () {
+                    // debugPrint("Chat Room tapped");
+                    Navigator.pushNamed(context, '/about');
+                  }),
                 ],
               ),
             ),
@@ -139,7 +145,11 @@ class DashboardPage extends StatelessWidget {
 
   // Reusable Dashboard Card with onPressed
   static Widget dashboardCard(
-      IconData icon, String title, Color color, VoidCallback onPressed) {
+    IconData icon,
+    String title,
+    Color color,
+    VoidCallback onPressed,
+  ) {
     return InkWell(
       onTap: onPressed,
       borderRadius: BorderRadius.circular(16),

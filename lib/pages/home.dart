@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import '../models/student_info.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -8,8 +10,7 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home>
-    with SingleTickerProviderStateMixin {
+class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _fade;
   late Animation<double> _scale;
@@ -23,20 +24,32 @@ class _HomeState extends State<Home>
       vsync: this,
     );
 
-    _fade = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeIn),
-    );
+    _fade = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
 
-    _scale = Tween<double>(begin: 0.6, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.elasticOut),
-    );
+    _scale = Tween<double>(
+      begin: 0.6,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.elasticOut));
 
     _controller.forward();
 
-    // Move to next screen after 3 seconds
-    Timer(const Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, '/login');
-    });
+    // Check auth status then move
+    Timer(const Duration(seconds: 3), _checkAuthAndNavigate);
+  }
+
+  void _checkAuthAndNavigate() {
+    if (!mounted) return;
+
+    final box = Hive.box<Student>('students');
+    // Simple check: if we have any student data, we assume signed up
+    if (box.isNotEmpty) {
+      Navigator.pushReplacementNamed(context, '/dashboard');
+    } else {
+      Navigator.pushReplacementNamed(context, '/signup');
+    }
   }
 
   @override
@@ -58,11 +71,11 @@ class _HomeState extends State<Home>
               mainAxisSize: MainAxisSize.min,
               children: [
                 Image.asset(
-                  "assets/images/akumlogo.png",  // replace with your image file name
+                  "assets/images/akumlogo.png", // replace with your image file name
                   height: 90,
                 ),
-                SizedBox(height: 16),
-                Text(
+                const SizedBox(height: 16),
+                const Text(
                   "AKUM CONNECT",
                   style: TextStyle(
                     fontSize: 26,
