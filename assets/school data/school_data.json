@@ -1,0 +1,838 @@
+{
+  "school": "Abdulkadir Kure University, Minna",
+  "location": "Minna, Nigeria",
+  "management": {
+    "Chancellor": "Siraj Abdullah",
+    "Pro-Chancellor": "Prof. Muhammad Kuta Yahaya",
+    "Vice Chancellor": "Prof. Aliyu Muhammad Paiko",
+    "Deputy Vice Chancellor (Academic)": "Eng. Prof. Tsado Jacob",
+    "Deputy Vice Chancellor (Administration)": "Prof. To be appointed",
+    "Registrar": "Dr. Garba Abdullahi",
+    "Bursar": "Haj. Hajara Abdullahi Kuso",
+    "Librarian": "Dr. Mohammad Garba Shambo",
+    "Admission Officer": "Sule Muhammad Ndako",
+    "ICT Director": "To be appointed",
+    "Accountant": "To be appointed",
+    "Auditor": "To be appointed",
+    "Financial Controller": "To be appointed"
+  },
+  "buildings": [
+    "Senate Building",
+    "ICT Complex",
+    "Faculty Buildings",
+    "Library",
+    "Student Hostels",
+    "Health Center",
+    "Sports Complex"
+  ],
+  "campuses": [
+    "Main Campus",
+    "Satellite Campuses (if applicable)"
+  ],
+  "establishment_year": 2023,
+  "academic_structure": {
+    "faculties": [
+      {
+        "faculty_id": 1,
+        "faculty_name": "Faculty of Allied Health Sciences",
+        "abbreviation": "FAHS",
+        "departments": [
+          {
+            "department_id": 1,
+            "department_name": "Complementary and Alternative Medicine",
+            "abbreviation": "CAM",
+            "programmes": [
+              {
+                "programme_id": 1,
+                "programme_name": "Complementary and Alternative Medicine",
+                "abbreviation": "CAM",
+                "duration": 5.0,
+                "degree_type": "B.Sc."
+              }
+            ]
+          },
+          {
+            "department_id": 2,
+            "department_name": "Environmental Health Science",
+            "abbreviation": "EHS",
+            "programmes": [
+              {
+                "programme_id": 2,
+                "programme_name": "Environmental Health Science",
+                "abbreviation": "EHS",
+                "duration": 4.0,
+                "degree_type": "B.Sc."
+              }
+            ]
+          },
+          {
+            "department_id": 3,
+            "department_name": "Medical Laboratory Science",
+            "abbreviation": "MLS",
+            "programmes": [
+              {
+                "programme_id": 3,
+                "programme_name": "Medical Laboratory Science",
+                "abbreviation": "MLS",
+                "duration": 4.0,
+                "degree_type": "B.MLS"
+              }
+            ]
+          },
+          {
+            "department_id": 4,
+            "department_name": "Nursing Science",
+            "abbreviation": "NCS",
+            "programmes": [
+              {
+                "programme_id": 4,
+                "programme_name": "Nursing Science",
+                "abbreviation": "NCS",
+                "duration": 4.0,
+                "degree_type": "B.N.Sc."
+              }
+            ]
+          },
+          {
+            "department_id": 5,
+            "department_name": "Public Health",
+            "abbreviation": "PHS",
+            "programmes": [
+              {
+                "programme_id": 5,
+                "programme_name": "Public Health",
+                "abbreviation": "PHS",
+                "duration": 4.0,
+                "degree_type": "B.Sc."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "faculty_id": 2,
+        "faculty_name": "Faculty of Computing",
+        "abbreviation": "FOC",
+        "departments": [
+          {
+            "department_id": 6,
+            "department_name": "Computer Science",
+            "abbreviation": "CSC",
+            "programmes": [
+              {
+                "programme_id": 6,
+                "programme_name": "Computer Science",
+                "abbreviation": "CSC",
+                "duration": 4.0,
+                "degree_type": "B.Sc."
+              }
+            ]
+          },
+          {
+            "department_id": 7,
+            "department_name": "Cyber Security",
+            "abbreviation": "CYB",
+            "programmes": [
+              {
+                "programme_id": 7,
+                "programme_name": "Cyber Security",
+                "abbreviation": "CYB",
+                "duration": 4.0,
+                "degree_type": "B.Sc."
+              }
+            ]
+          },
+          {
+            "department_id": 8,
+            "department_name": "Data Science",
+            "abbreviation": "DTS",
+            "programmes": [
+              {
+                "programme_id": 8,
+                "programme_name": "Data Science",
+                "abbreviation": "DTS",
+                "duration": 4.0,
+                "degree_type": "B.Sc."
+              }
+            ]
+          },
+          {
+            "department_id": 9,
+            "department_name": "Software Engineering",
+            "abbreviation": "SEN",
+            "programmes": [
+              {
+                "programme_id": 9,
+                "programme_name": "Software Engineering",
+                "abbreviation": "SEN",
+                "duration": 4.0,
+                "degree_type": "B.Sc."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "faculty_id": 3,
+        "faculty_name": "Faculty of Education",
+        "abbreviation": "FOE",
+        "departments": [
+          {
+            "department_id": 10,
+            "department_name": "Arts and Social Science Education",
+            "abbreviation": "ASSE",
+            "programmes": [
+              {
+                "programme_id": 10,
+                "programme_name": "Education and Arabic Language",
+                "abbreviation": "ARB",
+                "duration": 4.0,
+                "degree_type": "B.Ed."
+              },
+              {
+                "programme_id": 11,
+                "programme_name": "Education and Christian Religious Studies",
+                "abbreviation": "CRS",
+                "duration": 4.0,
+                "degree_type": "B.Ed."
+              },
+              {
+                "programme_id": 12,
+                "programme_name": "Education and Economics",
+                "abbreviation": "ECO",
+                "duration": 4.0,
+                "degree_type": "B.Ed."
+              },
+              {
+                "programme_id": 13,
+                "programme_name": "Education and English Language",
+                "abbreviation": "ENG",
+                "duration": 4.0,
+                "degree_type": "B.Ed."
+              },
+              {
+                "programme_id": 14,
+                "programme_name": "Education and Hausa",
+                "abbreviation": "HAU",
+                "duration": 4.0,
+                "degree_type": "B.Ed."
+              },
+              {
+                "programme_id": 15,
+                "programme_name": "Education and Islamic Religious Studies",
+                "abbreviation": "ISS",
+                "duration": 4.0,
+                "degree_type": "B.Ed."
+              },
+              {
+                "programme_id": 16,
+                "programme_name": "Education and Political Science",
+                "abbreviation": "POL",
+                "duration": 4.0,
+                "degree_type": "B.Ed."
+              },
+              {
+                "programme_id": 17,
+                "programme_name": "History and International Relations",
+                "abbreviation": "HIS",
+                "duration": 4.0,
+                "degree_type": "B.Ed."
+              },
+              {
+                "programme_id": 18,
+                "programme_name": "Social Studies and Civic Education",
+                "abbreviation": "ESS",
+                "duration": 4.0,
+                "degree_type": "B.Ed."
+              },
+              {
+                "programme_id": 19,
+                "programme_name": "Sustainable Development Studies",
+                "abbreviation": "SDS",
+                "duration": 4.0,
+                "degree_type": "B.Ed."
+              }
+            ]
+          },
+          {
+            "department_id": 11,
+            "department_name": "Education",
+            "abbreviation": "EDU",
+            "programmes": [
+              {
+                "programme_id": 20,
+                "programme_name": "Adult and Continuing Education",
+                "abbreviation": "ACE",
+                "duration": 4.0,
+                "degree_type": "B.Ed."
+              },
+              {
+                "programme_id": 21,
+                "programme_name": "Educational Management",
+                "abbreviation": "EDM",
+                "duration": 4.0,
+                "degree_type": "B.Ed."
+              },
+              {
+                "programme_id": 22,
+                "programme_name": "Guidance and Cognitive Science",
+                "abbreviation": "GCS",
+                "duration": 4.0,
+                "degree_type": "B.Ed."
+              },
+              {
+                "programme_id": 23,
+                "programme_name": "Library Information Science",
+                "abbreviation": "LIS",
+                "duration": 4.0,
+                "degree_type": "B.Ed."
+              },
+              {
+                "programme_id": 24,
+                "programme_name": "Primary Education",
+                "abbreviation": "PED",
+                "duration": 4.0,
+                "degree_type": "B.Ed."
+              },
+              {
+                "programme_id": 25,
+                "programme_name": "Special Needs Education",
+                "abbreviation": "ESP",
+                "duration": 4.0,
+                "degree_type": "B.Ed."
+              }
+            ]
+          },
+          {
+            "department_id": 12,
+            "department_name": "Sciences Education",
+            "abbreviation": "SCIE",
+            "programmes": [
+              {
+                "programme_id": 26,
+                "programme_name": "Biology Education",
+                "abbreviation": "BIO",
+                "duration": 4.0,
+                "degree_type": "B.Sc.Ed."
+              },
+              {
+                "programme_id": 27,
+                "programme_name": "Computer Science Education",
+                "abbreviation": "ECSC",
+                "duration": 4.0,
+                "degree_type": "B.Sc.Ed."
+              },
+              {
+                "programme_id": 28,
+                "programme_name": "Education and Chemistry",
+                "abbreviation": "CHE",
+                "duration": 4.0,
+                "degree_type": "B.Sc.Ed."
+              },
+              {
+                "programme_id": 29,
+                "programme_name": "Education and Geography",
+                "abbreviation": "GEO",
+                "duration": 4.0,
+                "degree_type": "B.Sc.Ed."
+              },
+              {
+                "programme_id": 30,
+                "programme_name": "Education and Mathematics",
+                "abbreviation": "MAT",
+                "duration": 4.0,
+                "degree_type": "B.Sc.Ed."
+              },
+              {
+                "programme_id": 31,
+                "programme_name": "Education and Physics",
+                "abbreviation": "PHY",
+                "duration": 4.0,
+                "degree_type": "B.Sc.Ed."
+              },
+              {
+                "programme_id": 32,
+                "programme_name": "Human Kinetics and Health Education",
+                "abbreviation": "KHE",
+                "duration": 4.0,
+                "degree_type": "B.Sc.Ed."
+              },
+              {
+                "programme_id": 33,
+                "programme_name": "Integrated Science",
+                "abbreviation": "ISC",
+                "duration": 4.0,
+                "degree_type": "B.Sc.Ed."
+              },
+              {
+                "programme_id": 34,
+                "programme_name": "Statistics Education",
+                "abbreviation": "STE",
+                "duration": 4.0,
+                "degree_type": "B.Sc.Ed."
+              }
+            ]
+          },
+          {
+            "department_id": 13,
+            "department_name": "Technical and Vocational Education",
+            "abbreviation": "TVE",
+            "programmes": [
+              {
+                "programme_id": 35,
+                "programme_name": "Agricultural Extension",
+                "abbreviation": "AGE",
+                "duration": 4.0,
+                "degree_type": "B.Sc.Ed."
+              },
+              {
+                "programme_id": 36,
+                "programme_name": "Agricultural Science Education",
+                "abbreviation": "EAS",
+                "duration": 4.0,
+                "degree_type": "B.Sc.Ed."
+              },
+              {
+                "programme_id": 37,
+                "programme_name": "Animal Production",
+                "abbreviation": "ANP",
+                "duration": 4.0,
+                "degree_type": "B.Sc.Ed."
+              },
+              {
+                "programme_id": 38,
+                "programme_name": "Automobile Technology Education",
+                "abbreviation": "ATE",
+                "duration": 4.0,
+                "degree_type": "B.Sc.Ed."
+              },
+              {
+                "programme_id": 39,
+                "programme_name": "Building Technology Education",
+                "abbreviation": "BTE",
+                "duration": 4.0,
+                "degree_type": "B.Sc.Ed."
+              },
+              {
+                "programme_id": 40,
+                "programme_name": "Business Education",
+                "abbreviation": "BUS",
+                "duration": 4.0,
+                "degree_type": "B.Sc.Ed."
+              },
+              {
+                "programme_id": 41,
+                "programme_name": "Creative Arts",
+                "abbreviation": "CAT",
+                "duration": 4.0,
+                "degree_type": "B.A.Ed."
+              },
+              {
+                "programme_id": 42,
+                "programme_name": "Education Accounting",
+                "abbreviation": "ACC",
+                "duration": 4.0,
+                "degree_type": "B.Sc.Ed."
+              },
+              {
+                "programme_id": 43,
+                "programme_name": "Electrical/Electronics Technology Education",
+                "abbreviation": "ETE",
+                "duration": 4.0,
+                "degree_type": "B.Sc.Ed."
+              },
+              {
+                "programme_id": 44,
+                "programme_name": "Entrepreneurship Education",
+                "abbreviation": "ENE",
+                "duration": 4.0,
+                "degree_type": "B.Sc.Ed."
+              },
+              {
+                "programme_id": 45,
+                "programme_name": "Home Economics Education",
+                "abbreviation": "HME",
+                "duration": 4.0,
+                "degree_type": "B.Sc.Ed."
+              },
+              {
+                "programme_id": 46,
+                "programme_name": "Metalwork Technology Education",
+                "abbreviation": "MTE",
+                "duration": 4.0,
+                "degree_type": "B.Sc.Ed."
+              },
+              {
+                "programme_id": 47,
+                "programme_name": "Soil Science",
+                "abbreviation": "SOS",
+                "duration": 4.0,
+                "degree_type": "B.Sc.Ed."
+              },
+              {
+                "programme_id": 48,
+                "programme_name": "Woodwork Technology Education",
+                "abbreviation": "WTE",
+                "duration": 4.0,
+                "degree_type": "B.Sc.Ed."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "faculty_id": 4,
+        "faculty_name": "Faculty of Engineering and Innovation",
+        "abbreviation": "FOEI",
+        "departments": [
+          {
+            "department_id": 14,
+            "department_name": "Agricultural and Bio-system Engineering",
+            "abbreviation": "ABE",
+            "programmes": [
+              {
+                "programme_id": 49,
+                "programme_name": "Agricultural and Bio-system Engineering",
+                "abbreviation": "ABE",
+                "duration": 4.0,
+                "degree_type": "B.Eng."
+              }
+            ]
+          },
+          {
+            "department_id": 15,
+            "department_name": "Biomedical Engineering",
+            "abbreviation": "BME",
+            "programmes": [
+              {
+                "programme_id": 50,
+                "programme_name": "Biomedical Engineering",
+                "abbreviation": "BME",
+                "duration": 4.0,
+                "degree_type": "B.Eng."
+              }
+            ]
+          },
+          {
+            "department_id": 16,
+            "department_name": "Computer Engineering",
+            "abbreviation": "CPE",
+            "programmes": [
+              {
+                "programme_id": 51,
+                "programme_name": "Computer Engineering",
+                "abbreviation": "CPE",
+                "duration": 4.0,
+                "degree_type": "B.Eng."
+              }
+            ]
+          },
+          {
+            "department_id": 17,
+            "department_name": "Mechatronics Engineering",
+            "abbreviation": "MCE",
+            "programmes": [
+              {
+                "programme_id": 52,
+                "programme_name": "Mechatronics Engineering",
+                "abbreviation": "MCE",
+                "duration": 4.0,
+                "degree_type": "B.Eng."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "faculty_id": 5,
+        "faculty_name": "Faculty of Environmental Sciences",
+        "abbreviation": "FOES",
+        "departments": [
+          {
+            "department_id": 18,
+            "department_name": "Clothing and Textile Design",
+            "abbreviation": "CLT",
+            "programmes": [
+              {
+                "programme_id": 53,
+                "programme_name": "Clothing and Textile Design",
+                "abbreviation": "CLT",
+                "duration": 4.0,
+                "degree_type": "B.Sc."
+              }
+            ]
+          },
+          {
+            "department_id": 19,
+            "department_name": "Environmental Management",
+            "abbreviation": "EVM",
+            "programmes": [
+              {
+                "programme_id": 54,
+                "programme_name": "Environmental Management",
+                "abbreviation": "EVM",
+                "duration": 4.0,
+                "degree_type": "B.Sc."
+              }
+            ]
+          },
+          {
+            "department_id": 20,
+            "department_name": "Estate Management",
+            "abbreviation": "ESM",
+            "programmes": [
+              {
+                "programme_id": 55,
+                "programme_name": "Estate Management",
+                "abbreviation": "ESM",
+                "duration": 4.0,
+                "degree_type": "B.Sc."
+              }
+            ]
+          },
+          {
+            "department_id": 21,
+            "department_name": "Quantity Surveying",
+            "abbreviation": "QTS",
+            "programmes": [
+              {
+                "programme_id": 56,
+                "programme_name": "Quantity Surveying",
+                "abbreviation": "QTS",
+                "duration": 4.0,
+                "degree_type": "B.Sc."
+              }
+            ]
+          },
+          {
+            "department_id": 22,
+            "department_name": "Urban and Regional Planning",
+            "abbreviation": "URP",
+            "programmes": [
+              {
+                "programme_id": 57,
+                "programme_name": "Urban and Regional Planning",
+                "abbreviation": "URP",
+                "duration": 4.0,
+                "degree_type": "B.Sc."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "faculty_id": 6,
+        "faculty_name": "Faculty of Management Sciences",
+        "abbreviation": "FMS",
+        "departments": [
+          {
+            "department_id": 23,
+            "department_name": "Business Information Technology",
+            "abbreviation": "BIT",
+            "programmes": [
+              {
+                "programme_id": 58,
+                "programme_name": "Business Information Technology",
+                "abbreviation": "BIT",
+                "duration": 4.0,
+                "degree_type": "B.Sc."
+              }
+            ]
+          },
+          {
+            "department_id": 24,
+            "department_name": "Employment and Human Resources Management",
+            "abbreviation": "EHR",
+            "programmes": [
+              {
+                "programme_id": 59,
+                "programme_name": "Employment and Human Resources Management",
+                "abbreviation": "EHR",
+                "duration": 4.0,
+                "degree_type": "B.Sc."
+              }
+            ]
+          },
+          {
+            "department_id": 25,
+            "department_name": "Entrepreneurship",
+            "abbreviation": "ENT",
+            "programmes": [
+              {
+                "programme_id": 60,
+                "programme_name": "Entrepreneurship",
+                "abbreviation": "ENT",
+                "duration": 4.0,
+                "degree_type": "B.Sc."
+              }
+            ]
+          },
+          {
+            "department_id": 26,
+            "department_name": "Procurement Logistics and Supply Chain Management",
+            "abbreviation": "LSM",
+            "programmes": [
+              {
+                "programme_id": 61,
+                "programme_name": "Procurement Logistics and Supply Chain Management",
+                "abbreviation": "LSM",
+                "duration": 4.0,
+                "degree_type": "B.Sc."
+              }
+            ]
+          },
+          {
+            "department_id": 27,
+            "department_name": "Securities and Investment Management",
+            "abbreviation": "SIM",
+            "programmes": [
+              {
+                "programme_id": 62,
+                "programme_name": "Securities and Investment Management",
+                "abbreviation": "SIM",
+                "duration": 4.0,
+                "degree_type": "B.Sc."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "faculty_id": 7,
+        "faculty_name": "Faculty of Sustainable Agriculture and Biotechnology",
+        "abbreviation": "FSAB",
+        "departments": [
+          {
+            "department_id": 28,
+            "department_name": "Agribusiness",
+            "abbreviation": "AGB",
+            "programmes": [
+              {
+                "programme_id": 63,
+                "programme_name": "Agribusiness",
+                "abbreviation": "AGB",
+                "duration": 4.0,
+                "degree_type": "B.Sc."
+              }
+            ]
+          },
+          {
+            "department_id": 29,
+            "department_name": "Biotechnology",
+            "abbreviation": "BTG",
+            "programmes": [
+              {
+                "programme_id": 64,
+                "programme_name": "Biotechnology",
+                "abbreviation": "BTG",
+                "duration": 4.0,
+                "degree_type": "B.Sc."
+              }
+            ]
+          },
+          {
+            "department_id": 30,
+            "department_name": "Family and Consumer Sciences",
+            "abbreviation": "FCS",
+            "programmes": [
+              {
+                "programme_id": 65,
+                "programme_name": "Family and Consumer Sciences",
+                "abbreviation": "FCS",
+                "duration": 4.0,
+                "degree_type": "B.Sc."
+              }
+            ]
+          },
+          {
+            "department_id": 31,
+            "department_name": "Food Science and Technology",
+            "abbreviation": "FST",
+            "programmes": [
+              {
+                "programme_id": 66,
+                "programme_name": "Food Science and Technology",
+                "abbreviation": "FST",
+                "duration": 4.0,
+                "degree_type": "B.Sc."
+              }
+            ]
+          },
+          {
+            "department_id": 32,
+            "department_name": "Forest Resources and Wildlife Management",
+            "abbreviation": "FWM",
+            "programmes": [
+              {
+                "programme_id": 67,
+                "programme_name": "Forest Resources and Wildlife Management",
+                "abbreviation": "FWM",
+                "duration": 4.0,
+                "degree_type": "B.Sc."
+              }
+            ]
+          },
+          {
+            "department_id": 33,
+            "department_name": "Horticulture and Landscape Management",
+            "abbreviation": "HLM",
+            "programmes": [
+              {
+                "programme_id": 68,
+                "programme_name": "Horticulture and Landscape Management",
+                "abbreviation": "HLM",
+                "duration": 4.0,
+                "degree_type": "B.Sc."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "summary": {
+    "total_faculties": 7,
+    "total_departments": 33,
+    "total_programmes": 68,
+    "degree_types": {
+      "B.Sc.": 47,
+      "B.Ed.": 21,
+      "B.Eng.": 4,
+      "B.N.Sc.": 1,
+      "B.MLS": 1,
+      "B.A.Ed.": 1,
+      "B.Sc.Ed.": 35
+    }
+  },
+  "contact": {
+    "address": "Abdulkadir Kure University, Minna, Niger State, Nigeria",
+    "website": "https://www.akum.edu.ng",
+    "email": "info@akum.edu.ng",
+    "phone": "+234 703 772 9006"
+  },
+  "academic_calendar": {
+    "semesters_per_year": 2,
+    "admission_period": "September/October"
+  },
+  "Documentation": [
+    "Certificate of educational qualification: Original O' level certificate(s), Original Statement of Result(s), Original Birth Certificate or Statutory Declaration of Age.",
+    "Eight (8) Recent Passport-sized Photographs",
+    "Local Government Letter of Indigenisation not earlier than six months before admission.",
+    "Recent of Payment of Registration fees"
+  ],
+  "Definition of Terms": {
+    "Examination": "A formal assessment conducted by the university to evaluate a student's knowledge, understanding, and performance in a course unit.",
+    "Session": "An academic period, usually covering one full academic year, during which teaching, learning, and examinations are conducted.",
+    "Semester": "A division of an academic session into two parts, each consisting of a defined period of teaching and assessment.",
+    "Year of Study": "The academic level of a student in a programme, such as First Year, Second Year, Third Year, or Final Year.",
+    "Programme of Study": "An approved academic course of learning leading to the award of a certificate, diploma, or degree by the university.",
+    "Course Unit": "A single subject or module offered within a programme, assigned a specific credit value.",
+    "Course Units": "All individual subjects or modules registered by a student in a particular semester or session.",
+    "Grade Point": "A numerical value assigned to a letter grade, used to calculate academic performance.",
+    "Credit Point": "The weighted value obtained by multiplying the grade point by the credit unit of a course.",
+    "Grade Point Average GPA": "The average of credit points earned divided by the total credit units registered in a semester or session.",
+    "Cumulative Grade Point Average CGPA": "The overall average of credit points earned across all completed semesters divided by the total credit units attempted.",
+    "Probation": "An academic status assigned to a student whose performance falls below the minimum acceptable standard, requiring improvement in subsequent semesters.",
+    "Withdrawal": "The academic status applied when a student is required to discontinue studies due to consistently poor academic performance or violation of university regulations."
+  }
+}

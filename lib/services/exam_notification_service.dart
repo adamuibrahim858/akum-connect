@@ -21,10 +21,14 @@ class ExamNotificationService {
           requestAlertPermission: true,
         );
 
+    const LinuxInitializationSettings initializationSettingsLinux =
+        LinuxInitializationSettings(defaultActionName: 'Open notification');
+
     const InitializationSettings initializationSettings =
         InitializationSettings(
           android: initializationSettingsAndroid,
           iOS: initializationSettingsDarwin,
+          linux: initializationSettingsLinux,
         );
 
     await _notificationsPlugin.initialize(
@@ -50,11 +54,17 @@ class ExamNotificationService {
         ?.createNotificationChannel(channel);
 
     // Request permissions for Android 13+
-    _notificationsPlugin
-        .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin
-        >()
-        ?.requestNotificationsPermission();
+    try {
+      if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
+        await _notificationsPlugin
+            .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin
+            >()
+            ?.requestNotificationsPermission();
+      }
+    } catch (e) {
+      debugPrint("⚠️ ExamNotificationService: Permission request handled: $e");
+    }
   }
 
   static Future<void> scheduleExamNotifications(ExamModel exam) async {

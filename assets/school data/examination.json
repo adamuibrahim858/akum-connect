@@ -1,0 +1,475 @@
+{
+  "examination_guide_nigerian_universities": {
+    "pre_examination_preparation": [
+      {
+        "period": "Throughout Semester",
+        "guidelines": [
+          "Regular lecture attendance (minimum 75% required for exam eligibility)",
+          "Complete all continuous assessments (CAs) and assignments",
+          "Take clear and organized notes",
+          "Participate in tutorials and practical sessions",
+          "Form or join study groups for difficult courses"
+        ]
+      },
+      {
+        "period": "2-4 Weeks Before Exams",
+        "guidelines": [
+          "Obtain and review course outlines and past questions",
+          "Create revision timetable covering all courses",
+          "Focus on topics emphasized by lecturers",
+          "Attend all revision lectures",
+          "Practice with past exam papers under timed conditions"
+        ]
+      },
+      {
+        "period": "Final Week Before Exams",
+        "guidelines": [
+          "Review key formulas, definitions, and concepts",
+          "Clarify difficult topics with lecturers or peers",
+          "Ensure all required textbooks/materials are available",
+          "Get adequate rest (6-8 hours sleep)",
+          "Plan examination logistics (venue, time, materials)"
+        ]
+      }
+    ],
+    "examination_registration_requirements": [
+      "Payment of all school fees and charges",
+      "Minimum attendance requirement (usually 75%)",
+      "Completion of all continuous assessments",
+      "Clearance from department and faculty",
+      "Registration within university portal before deadline"
+    ],
+    "examination_day_procedures": {
+      "before_entering_exam_hall": [
+        "Arrive at least 30 minutes before exam start time",
+        "Bring original student ID card (mandatory)",
+        "Bring exam docket (where required)",
+        "Carry only permitted materials in transparent bag",
+        "Switch off mobile phone and leave with invigilators or outside"
+      ],
+      "permitted_materials": [
+        "Writing materials (pens, pencils, eraser, ruler)",
+        "Non-programmable calculator (where allowed)",
+        "Mathematical tables (where specified)",
+        "Drawing instruments for technical courses",
+        "Water in transparent bottle"
+      ],
+      "prohibited_items": [
+        "Mobile phones and smart watches",
+        "Programmable calculators",
+        "Books, notes, or paper (unless open-book exam)",
+        "Electronic devices of any kind",
+        "Food (unless for medical reasons with prior approval)"
+      ]
+    },
+    "in_examination_hall_protocol": [
+      "Sit only at assigned seat number",
+      "Listen carefully to invigilators' instructions",
+      "Fill answer booklet cover correctly (matric number, course code)",
+      "Read through entire question paper before starting",
+      "Allocate time according to marks distribution",
+      "Write legibly and use official answer booklet only",
+      "Raise hand quietly for any assistance needed",
+      "Do not communicate with other candidates",
+      "Do not leave hall within first 30 minutes or last 15 minutes"
+    ],
+    "examination_conduct_rules": [
+      {
+        "rule": "Silence must be observed at all times",
+        "penalty_for_violation": "Warning, then expulsion from hall"
+      },
+      {
+        "rule": "No borrowing of materials during exam",
+        "penalty_for_violation": "Suspicion of collusion, possible cancellation"
+      },
+      {
+        "rule": "All work must be done during allotted time",
+        "penalty_for_violation": "Script not accepted after time"
+      },
+      {
+        "rule": "Answer booklets must not contain identifying marks",
+        "penalty_for_violation": "Script may be cancelled"
+      },
+      {
+        "rule": "Remain seated until all scripts are collected",
+        "penalty_for_violation": "Possible disciplinary action"
+      }
+    ],
+    "types_of_examinations": [
+      {
+        "type": "Written Examinations",
+        "description": "Theory-based papers, usually 2-3 hours duration",
+        "common_formats": ["Essay questions", "Short answer questions", "Multiple choice", "Problem-solving"]
+      },
+      {
+        "type": "Practical Examinations",
+        "description": "For science, engineering, medical and vocational courses",
+        "common_formats": ["Laboratory experiments", "Clinical assessments", "Studio work", "Technical skills demonstration"]
+      },
+      {
+        "type": "Oral Examinations",
+        "description": "Common for language courses and final projects",
+        "common_formats": ["Viva voce", "Oral presentations", "Language proficiency tests"]
+      },
+      {
+        "type": "Take-Home/Open Book",
+        "description": "Research-based assignments with specific deadlines",
+        "common_formats": ["Term papers", "Case studies", "Research projects"]
+      }
+    ],
+    "special_examination_circumstances": [
+      {
+        "situation": "Illness during examination",
+        "procedure": "Inform invigilator immediately, obtain medical report, apply for special consideration"
+      },
+      {
+        "situation": "Missing examination",
+        "procedure": "Submit formal application with evidence (medical report, police report) within 48 hours"
+      },
+      {
+        "situation": "Examination clash",
+        "procedure": "Report to exams office immediately upon seeing timetable"
+      },
+      {
+        "situation": "Special needs",
+        "procedure": "Register with Student Affairs for accommodations (extra time, scribe, separate room)"
+      }
+    ],
+    "post_examination_processes": [
+      {
+        "step": "Script marking",
+        "description": "Lecturers mark scripts anonymously (matric numbers only)"
+      },
+      {
+        "step": "Moderation",
+        "description": "External examiners review marking and standards"
+      },
+      {
+        "step": "Departmental board",
+        "description": "Approves results before faculty consideration"
+      },
+      {
+        "step": "Faculty board",
+        "description": "Considers and approves all results"
+      },
+      {
+        "step": "Senate approval",
+        "description": "Final approval of all examination results"
+      },
+      {
+        "step": "Result publication",
+        "description": "Posted on notice boards and/or student portals"
+      }
+    ],
+    "result_related_processes": [
+      {
+        "process": "Result checking",
+        "description": "Students can view results online or on departmental notice boards"
+      },
+      {
+        "process": "Result complaints",
+        "description": "Formal application for script viewing within 2 weeks of result publication"
+      },
+      {
+        "process": "Carry-over registration",
+        "description": "Failed courses must be registered again in following session"
+      },
+      {
+        "process": "Supplementary exams",
+        "description": "Some universities offer second chance exams for borderline failures"
+      }
+    ],
+    "nuc_examination_standards": [
+      "Minimum of 70% pass mark for professional courses",
+      "External examiner system mandatory for all programs",
+      "Examination malpractices must be reported to NUC",
+      "Results must be approved by Senate",
+      "Standardized transcript format across universities"
+    ]
+  },
+  "grade_point_computation_nigeria": {
+    "grading_system": "Based on the National Universities Commission (NUC) standards",
+    "grading_scale": [
+      {
+        "percentage_range": "70-100%",
+        "letter_grade": "A",
+        "grade_point": "5.0",
+        "classification": "First Class (Excellent)",
+        "remark": "Excellent"
+      },
+      {
+        "percentage_range": "60-69%",
+        "letter_grade": "B",
+        "grade_point": "4.0",
+        "classification": "Second Class Upper (Very Good)",
+        "remark": "Very Good"
+      },
+      {
+        "percentage_range": "50-59%",
+        "letter_grade": "C",
+        "grade_point": "3.0",
+        "classification": "Second Class Lower (Good)",
+        "remark": "Good"
+      },
+      {
+        "percentage_range": "45-49%",
+        "letter_grade": "D",
+        "grade_point": "2.0",
+        "classification": "Third Class (Fair)",
+        "remark": "Pass"
+      },
+      {
+        "percentage_range": "40-44%",
+        "letter_grade": "E",
+        "grade_point": "1.0",
+        "classification": "Pass (Poor)",
+        "remark": "Conditional Pass (varies by institution)"
+      },
+      {
+        "percentage_range": "0-39%",
+        "letter_grade": "F",
+        "grade_point": "0.0",
+        "classification": "Fail",
+        "remark": "Fail"
+      }
+    ],
+    "cgpa_calculation": {
+      "steps": [
+        "1. For each course, multiply the grade point by the course credit load (units)",
+        "2. Sum all quality points (Grade Point × Credit Units) for all courses",
+        "3. Sum all credit units attempted",
+        "4. Divide total quality points by total credit units"
+      ],
+      "formula": "CGPA = Σ(Grade Point × Credit Units) / Σ(Credit Units)"
+    },
+    "example_calculation": {
+      "courses": [
+        {"course": "MTH 101", "units": 3, "grade": "A", "grade_point": 5.0},
+        {"course": "PHY 101", "units": 2, "grade": "B", "grade_point": 4.0},
+        {"course": "CHM 101", "units": 2, "grade": "C", "grade_point": 3.0},
+        {"course": "GST 101", "units": 2, "grade": "A", "grade_point": 5.0}
+      ],
+      "calculation": [
+        "Quality Points: (3 × 5.0) + (2 × 4.0) + (2 × 3.0) + (2 × 5.0) = 15 + 8 + 6 + 10 = 39",
+        "Total Units: 3 + 2 + 2 + 2 = 9",
+        "GPA: 39 ÷ 9 = 4.33"
+      ]
+    },
+    "degree_classifications": [
+      {
+        "cgpa_range": "4.50 - 5.00",
+        "classification": "First Class Honours"
+      },
+      {
+        "cgpa_range": "3.50 - 4.49",
+        "classification": "Second Class Honours (Upper Division)"
+      },
+      {
+        "cgpa_range": "2.40 - 3.49",
+        "classification": "Second Class Honours (Lower Division)"
+      },
+      {
+        "cgpa_range": "1.50 - 2.39",
+        "classification": "Third Class Honours"
+      },
+      {
+        "cgpa_range": "1.00 - 1.49",
+        "classification": "Pass Degree"
+      },
+      {
+        "cgpa_range": "Below 1.00",
+        "classification": "Fail"
+      }
+    ],
+    "special_cases": [
+      {
+        "case": "Carry Over/Supplementary Exams",
+        "description": "Failed courses must be retaken; new grade replaces old grade in some universities"
+      },
+      {
+        "case": "Incomplete (IN)",
+        "description": "Given when student hasn't completed course requirements"
+      },
+      {
+        "case": "Probation",
+        "description": "Students with GPA below 1.5 (varies) may be placed on academic probation"
+      },
+      {
+        "case": "Withdrawal (W)",
+        "description": "Not calculated in GPA"
+      },
+      {
+        "case": "Audit Courses",
+        "description": "Not calculated in GPA"
+      }
+    ]
+  },
+  "university_misconduct_nigeria": {
+    "governing_body": "National Universities Commission (NUC) - Sets minimum standards, but individual universities establish specific codes of conduct",
+    "academic_misconduct": [
+      {
+        "category": "Examination Malpractice",
+        "examples": [
+          "Bringing unauthorized materials into exam hall",
+          "Copying from another candidate",
+          "Impersonation",
+          "Leaking or obtaining exam questions before exam",
+          "Script swapping",
+          "Collusion during examinations"
+        ],
+        "penalties": [
+          "Cancellation of entire examination paper",
+          "Suspension for 2-4 semesters",
+          "Expulsion from the university",
+          "Withholding of results",
+          "Blacklisting from other institutions",
+          "Criminal prosecution under Examination Malpractice Act (1999)"
+        ]
+      },
+      {
+        "category": "Plagiarism and Academic Fraud",
+        "examples": [
+          "Copying assignments/projects from others",
+          "Purchasing essays or projects",
+          "Fabricating research data",
+          "Unauthorized collaboration",
+          "Submitting same work for multiple courses"
+        ],
+        "penalties": [
+          "Zero mark for the assignment",
+          "Failure in the course",
+          "Academic probation",
+          "Suspension",
+          "Withdrawal of awarded degree if discovered later"
+        ]
+      }
+    ],
+    "non_academic_misconduct": [
+      {
+        "category": "Cultism and Violence",
+        "examples": [
+          "Membership in secret cults",
+          "Violence or intimidation",
+          "Hazing of new students",
+          "Possession of weapons"
+        ],
+        "penalties": [
+          "Immediate expulsion",
+          "Handover to police",
+          "Permanent exclusion from all Nigerian universities"
+        ]
+      },
+      {
+        "category": "Sexual Misconduct",
+        "examples": [
+          "Sexual harassment (commonly called 'sorting')",
+          "Rape or sexual assault",
+          "Indecent exposure"
+        ],
+        "penalties": [
+          "Suspension",
+          "Expulsion",
+          "Criminal prosecution",
+          "Mandatory counseling"
+        ]
+      },
+      {
+        "category": "Financial and Administrative Misconduct",
+        "examples": [
+          "Forgery of documents",
+          "Fee fraud",
+          "Bribery of staff",
+          "Misuse of university funds"
+        ],
+        "penalties": [
+          "Financial restitution",
+          "Suspension",
+          "Expulsion",
+          "Criminal charges"
+        ]
+      },
+      {
+        "category": "General Misconduct",
+        "examples": [
+          "Disruption of academic activities",
+          "Vandalism of university property",
+          "Theft",
+          "Drug abuse on campus",
+          "Disobedience to lawful instructions"
+        ],
+        "penalties": [
+          "Warning letters",
+          "Fines",
+          "Community service",
+          "Suspension",
+          "Expulsion"
+        ]
+      }
+    ],
+    "disciplinary_procedures": [
+      {
+        "step": "1. Investigation",
+        "description": "Departmental or Security Committee investigates allegations"
+      },
+      {
+        "step": "2. Appearance before Disciplinary Committee",
+        "description": "Student given opportunity to defend themselves"
+      },
+      {
+        "step": "3. Recommendation",
+        "description": "Committee submits recommendations to Senate or Governing Council"
+      },
+      {
+        "step": "4. Decision",
+        "description": "Final decision made by Senate/Governing Council"
+      },
+      {
+        "step": "5. Appeal",
+        "description": "Students can usually appeal within specified time frame"
+      }
+    ],
+    "nuc_regulations": [
+      {
+        "policy": "Minimum Standards",
+        "description": "NUC requires all universities to have published codes of conduct"
+      },
+      {
+        "policy": "Examination Malpractice Act",
+        "description": "Federal law prescribing penalties for exam malpractice"
+      },
+      {
+        "policy": "Quality Assurance",
+        "description": "NUC monitors institutional disciplinary systems"
+      }
+    ],
+    "grading_impact_of_misconduct": [
+      {
+        "situation": "Examination malpractice",
+        "impact": "Automatic 'F' grade (0.0) in affected course(s)"
+      },
+      {
+        "situation": "Plagiarism in project/thesis",
+        "impact": "Failure in project/thesis, affecting final class of degree"
+      },
+      {
+        "situation": "Suspension during semester",
+        "impact": "All courses for that semester recorded as 'F' (0.0)"
+      },
+      {
+        "situation": "Expulsion",
+        "impact": "Permanent record of misconduct; no degree awarded"
+      }
+    ]
+  },
+  "notes": [
+    "1. NUC provides framework but individual universities have specific codes of conduct",
+    "2. Penalties may vary between federal, state, and private universities",
+    "3. Some universities use 4-point scale instead of 5-point (check specific institution)",
+    "4. Students' Union activities are regulated under separate guidelines",
+    "5. All universities must have Students' Disciplinary Committees as per NUC requirements",
+    "6. Special disciplinary committees exist for staff misconduct",
+    "7. Examination timetables are usually released 2-3 weeks before exams",
+    "8. Continuous assessment typically constitutes 30-40% of final grade",
+    "9. Examination malpractice cases are handled by Special Examination Misconduct Committees"
+  ]
+}

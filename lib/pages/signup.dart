@@ -80,9 +80,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
       final box = Hive.box<Student>('students');
       await box.add(newStudent);
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Registration successful ✅")),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Registration successful ✅")),
+        );
+      }
 
       debugPrint("Student saved to Hive: ${newStudent.fullName}");
 
@@ -233,7 +235,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     // Faculty
                     DropdownButtonFormField<String>(
                       decoration: _inputDecoration("Faculty", Icons.school),
-                      value: _selectedFacultyName,
+                      initialValue: _selectedFacultyName,
                       isExpanded: true,
                       items: allFaculties
                           .map(
@@ -263,7 +265,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         "Department",
                         Icons.apartment,
                       ),
-                      value: _selectedDepartmentName,
+                      initialValue: _selectedDepartmentName,
                       isExpanded: true,
                       // Only show items if mapped correctly
                       items: _availableDepartments.map((d) {
@@ -296,7 +298,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         "Programme",
                         Icons.menu_book,
                       ),
-                      value: _selectedProgrammeName,
+                      initialValue: _selectedProgrammeName,
                       isExpanded: true,
                       items: _availableProgrammes.map((p) {
                         return DropdownMenuItem(

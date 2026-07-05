@@ -23,8 +23,10 @@ class NoteDetailPage extends StatelessWidget {
           TextButton(
             onPressed: () async {
               await NoteStorageService.deleteNote(note);
-              Navigator.pop(ctx); // Close Dialog
-              Navigator.pop(context); // Close Page
+              if (context.mounted) {
+                Navigator.pop(ctx); // Close Dialog
+                Navigator.pop(context); // Close Page
+              }
             },
             style: TextButton.styleFrom(foregroundColor: Colors.red),
             child: const Text('DELETE'),

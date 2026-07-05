@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import '../models/vendor_item.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:flutter/foundation.dart';
 
 class VendorService {
   static const String _baseUrl = 'https://akum-connect.mamat.com.ng/api';
@@ -75,18 +76,18 @@ class VendorService {
     required String itemPrice,
     required String imagePath,
   }) async {
-    print('--- DEBUGGING UPLOAD ---');
-    print('Image Path: $imagePath');
+    debugPrint('--- DEBUGGING UPLOAD ---');
+    debugPrint('Image Path: $imagePath');
 
     if (imagePath.isNotEmpty) {
       final file = File(imagePath);
       final exists = await file.exists();
-      print('File Exists (Release Audit): $exists');
+      debugPrint('File Exists (Release Audit): $exists');
 
       if (exists) {
-        print('File Size: ${await file.length()} bytes');
+        debugPrint('File Size: ${await file.length()} bytes');
       } else {
-        print('[CRITICAL] File does not exist at path!');
+        debugPrint('[CRITICAL] File does not exist at path!');
       }
     }
 
@@ -122,12 +123,12 @@ class VendorService {
         }
       }
 
-      print('Sending FormData fields: ${formData.fields}');
+      debugPrint('Sending FormData fields: ${formData.fields}');
 
       final response = await _dio.post('/vendors', data: formData);
 
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.data}');
+      debugPrint('Response status: ${response.statusCode}');
+      debugPrint('Response body: ${response.data}');
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final responseData = response.data;
@@ -136,7 +137,7 @@ class VendorService {
             responseData.containsKey('data')) {
           final data = responseData['data'];
           if (data is Map<String, dynamic> && data['id'] != null) {
-            print('Item created successfully with ID: ${data['id']}');
+            debugPrint('Item created successfully with ID: ${data['id']}');
             return; // Success!
           }
         }
@@ -170,7 +171,7 @@ class VendorService {
       }
     } on DioException catch (e) {
       if (e.response != null) {
-        print(
+        debugPrint(
           'SERVER ERROR BODY: ${e.response?.data}',
         ); // Log the crash details
         if (e.response!.statusCode == 422) {

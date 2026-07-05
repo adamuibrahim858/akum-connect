@@ -18,9 +18,19 @@ import 'models/note_model.dart';
 import 'pages/notes/notes_page.dart';
 import 'services/lecture_notification_service.dart';
 import 'services/exam_notification_service.dart';
+import 'services/school_knowledge_service.dart';
+
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  try {
+    await dotenv.load(fileName: ".env");
+  } catch (e) {
+    debugPrint(
+      "Warning: No .env file found. AI features may fall back to default.",
+    );
+  }
   await Hive.initFlutter();
 
   Hive.registerAdapter(StudentAdapter());
@@ -34,6 +44,7 @@ void main() async {
 
   await LectureNotificationService.init();
   await ExamNotificationService.init();
+  await SchoolKnowledgeService().loadData();
 
   runApp(const MyApp());
 }

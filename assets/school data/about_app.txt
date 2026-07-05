@@ -1,0 +1,41 @@
+This application is an official academic support platform developed to assist students of Abdulkadir Kure University, Minna.
+
+It provides students with quick and reliable access to essential academic and campus information, including:
+
+📅 Lecture and examination timetables with smart reminders
+
+🧾 Academic results, grading system, CGPA, and degree classifications
+
+🏫 Faculties, departments, programmes, and school structure
+
+📰 University news and announcements
+
+🤖 An intelligent AI assistant for school-related and academic guidance
+
+The AI assistant is designed to:
+
+Respond accurately using official school data
+
+Clearly indicate when information is not from the school database
+
+Provide general academic guidance when official data is unavailable
+
+Work offline for school-related information
+
+Use external AI services only when necessary and when quota is available
+
+👨‍💻 Builder & Trainer
+
+This application and its AI assistant were built and trained by:
+
+Ibrahim Adamu
+Student, Abdulkadir Kure University, Minna
+Faculty of Education
+Department of Science Education
+Programme: Computer Science Education
+
+A professional in website design and mobile application development, with a strong focus on educational technology and AI-powered student solutions.
+
+📧 Email: adamuibrahim858@gmail.com
+
+📞 Phone: 07065106233, 09034410185

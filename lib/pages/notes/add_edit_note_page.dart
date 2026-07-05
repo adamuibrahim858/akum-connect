@@ -46,7 +46,7 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
           _contentController.text,
         );
       }
-      Navigator.pop(context);
+      if (mounted) Navigator.pop(context);
     }
   }
 

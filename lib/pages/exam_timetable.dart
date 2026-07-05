@@ -74,7 +74,7 @@ class _ExamTimetablePageState extends State<ExamTimetablePage> {
             onPressed: () async {
               await ExamNotificationService.cancelExamNotifications(exam);
               await exam.delete();
-              Navigator.pop(context);
+              if (context.mounted) Navigator.pop(context);
             },
             style: TextButton.styleFrom(foregroundColor: Colors.red),
             child: const Text('REMOVE'),
@@ -149,8 +149,6 @@ class ExamCard extends StatelessWidget {
     final now = DateTime.now();
 
     // Combine date and time to get full DateTime objects
-    final examDate = DateTime(exam.date.year, exam.date.month, exam.date.day);
-
     final startParts = exam.startTime.split(':');
     final endParts = exam.endTime.split(':');
 
@@ -218,7 +216,7 @@ class ExamCard extends StatelessWidget {
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    color: (statusData['color'] as Color).withOpacity(0.1),
+                    color: (statusData['color'] as Color).withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(color: statusData['color'] as Color),
                   ),

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'marketplace/marketplace_page.dart';
 import 'news/news_list_page.dart';
+import 'ai_chat_page.dart';
+import 'hostel/hostel_page.dart';
+import 'course_registration/course_registration_page.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
 import '../models/timetable_entry.dart';
@@ -17,7 +20,10 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   void initState() {
     super.initState();
-    _scheduleTimetableNotifications();
+    // Defer notification scheduling to avoid blocking the UI during initial render
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scheduleTimetableNotifications();
+    });
   }
 
   Future<void> _scheduleTimetableNotifications() async {
@@ -95,6 +101,22 @@ class _DashboardPageState extends State<DashboardPage> {
                     // debugPrint("Result tapped");
                     Navigator.pushNamed(context, '/result');
                   }),
+                  dashboardCard(Icons.apartment, "Hostel", Colors.deepOrange, () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HostelPage(),
+                      ),
+                    );
+                  }),
+                  dashboardCard(Icons.app_registration, "Course Reg", Colors.cyan, () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const CourseRegistrationPage(),
+                      ),
+                    );
+                  }),
                   dashboardCard(Icons.schedule, "Timetable", Colors.orange, () {
                     // debugPrint("Timetable tapped");
                     Navigator.pushNamed(context, '/timetable');
@@ -140,6 +162,17 @@ class _DashboardPageState extends State<DashboardPage> {
           ),
         ],
       ),
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AiChatPage()),
+          );
+        },
+        backgroundColor: Colors.green,
+        child: const Icon(Icons.support_agent, color: Colors.white),
+      ),
     );
   }
 
@@ -159,7 +192,7 @@ class _DashboardPageState extends State<DashboardPage> {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
+              color: Colors.grey.withValues(alpha: 0.2),
               blurRadius: 6,
               offset: const Offset(0, 4),
             ),
@@ -169,7 +202,7 @@ class _DashboardPageState extends State<DashboardPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircleAvatar(
-              backgroundColor: color.withOpacity(0.1),
+              backgroundColor: color.withValues(alpha: 0.1),
               radius: 30,
               child: Icon(icon, size: 32, color: color),
             ),

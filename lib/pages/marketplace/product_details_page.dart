@@ -189,8 +189,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                               Row(
                                 children: [
                                   CircleAvatar(
-                                    backgroundColor: Colors.green.withOpacity(
-                                      0.1,
+                                    backgroundColor: Colors.green.withValues(
+                                      alpha: 0.1,
                                     ),
                                     child: Text(
                                       item.name.isNotEmpty
@@ -285,9 +285,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
+          color: color.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: color.withOpacity(0.5)),
+          border: Border.all(color: color.withValues(alpha: 0.5)),
         ),
         child: Column(
           children: [

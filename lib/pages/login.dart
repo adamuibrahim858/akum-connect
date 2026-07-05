@@ -111,9 +111,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   onPressed: () {
-                    // TODO: Add login logic
-                    // debugPrint("Username: ${_usernameController.text}");
-                    // debugPrint("Password: ${_passwordController.text}");
                     Navigator.pushNamed(context, '/dashboard');
                   },
                   child: const Text(

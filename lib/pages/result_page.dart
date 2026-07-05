@@ -124,10 +124,6 @@ class _ResultPageState extends State<ResultPage> {
               )
             else
               const Spacer(),
-
-            // TODO: Integrate API call to fetch actual results here
-            // When API is ready, replace the static Text widget above with
-            // a ListView or detailed result view.
           ],
         ),
       ),
