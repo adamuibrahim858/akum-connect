@@ -89,9 +89,10 @@ class _DashboardPageState extends State<DashboardPage> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: GridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20,
+                crossAxisCount: 3,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
+                childAspectRatio: 0.88,
                 children: [
                   dashboardCard(Icons.person, "Profile", Colors.blue, () {
                     // debugPrint("Profile tapped");
@@ -101,22 +102,40 @@ class _DashboardPageState extends State<DashboardPage> {
                     // debugPrint("Result tapped");
                     Navigator.pushNamed(context, '/result');
                   }),
-                  dashboardCard(Icons.apartment, "Hostel", Colors.deepOrange, () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const HostelPage(),
-                      ),
-                    );
-                  }),
-                  dashboardCard(Icons.app_registration, "Course Reg", Colors.cyan, () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const CourseRegistrationPage(),
-                      ),
-                    );
-                  }),
+                  dashboardCard(
+                    Icons.school,
+                    "AI Tutor",
+                    Colors.deepPurple,
+                    () {
+                      Navigator.pushNamed(context, '/ai-tutor');
+                    },
+                  ),
+                  dashboardCard(
+                    Icons.apartment,
+                    "Hostel",
+                    Colors.deepOrange,
+                    () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HostelPage(),
+                        ),
+                      );
+                    },
+                  ),
+                  dashboardCard(
+                    Icons.app_registration,
+                    "Course Reg",
+                    Colors.cyan,
+                    () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CourseRegistrationPage(),
+                        ),
+                      );
+                    },
+                  ),
                   dashboardCard(Icons.schedule, "Timetable", Colors.orange, () {
                     // debugPrint("Timetable tapped");
                     Navigator.pushNamed(context, '/timetable');
@@ -187,14 +206,15 @@ class _DashboardPageState extends State<DashboardPage> {
       onTap: onPressed,
       borderRadius: BorderRadius.circular(16),
       child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withValues(alpha: 0.2),
+              color: Colors.grey.withValues(alpha: 0.15),
               blurRadius: 6,
-              offset: const Offset(0, 4),
+              offset: const Offset(0, 3),
             ),
           ],
         ),
@@ -203,14 +223,17 @@ class _DashboardPageState extends State<DashboardPage> {
           children: [
             CircleAvatar(
               backgroundColor: color.withValues(alpha: 0.1),
-              radius: 30,
-              child: Icon(icon, size: 32, color: color),
+              radius: 22,
+              child: Icon(icon, size: 24, color: color),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 8),
             Text(
               title,
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
-                fontSize: 16,
+                fontSize: 12,
                 fontWeight: FontWeight.w600,
                 color: Colors.black87,
               ),

@@ -165,7 +165,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               // FACULTY DROPDOWN
               DropdownButtonFormField<String>(
                 decoration: _dec("Faculty", Icons.school),
-                value: _selectedFacultyName,
+                initialValue: _selectedFacultyName,
                 isExpanded: true,
                 items: allFaculties
                     .map(
@@ -193,7 +193,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               // DEPARTMENT DROPDOWN
               DropdownButtonFormField<String>(
                 decoration: _dec("Department", Icons.computer),
-                value: _selectedDepartmentName,
+                initialValue: _selectedDepartmentName,
                 isExpanded: true,
                 items: _availableDepartments
                     .map(
@@ -225,7 +225,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               // PROGRAMME DROPDOWN
               DropdownButtonFormField<String>(
                 decoration: _dec("Programme", Icons.book),
-                value: _selectedProgrammeName,
+                initialValue: _selectedProgrammeName,
                 isExpanded: true,
                 items: _availableProgrammes
                     .map(

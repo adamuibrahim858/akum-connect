@@ -15,7 +15,9 @@ import 'models/student_info.dart';
 import 'models/timetable_entry.dart';
 import 'models/exam_model.dart';
 import 'models/note_model.dart';
+import 'models/ai_tutor_model.dart';
 import 'pages/notes/notes_page.dart';
+import 'pages/ai_tutor/ai_tutor_page.dart';
 import 'services/lecture_notification_service.dart';
 import 'services/exam_notification_service.dart';
 import 'services/school_knowledge_service.dart';
@@ -37,10 +39,15 @@ void main() async {
   Hive.registerAdapter(TimetableEntryAdapter());
   Hive.registerAdapter(ExamModelAdapter());
   Hive.registerAdapter(NoteAdapter());
+  Hive.registerAdapter(AITutorTaskAdapter());
+  Hive.registerAdapter(AITutorDocumentAdapter());
   await Hive.openBox<Student>('students'); // our box for student data
   await Hive.openBox<TimetableEntry>('timetable'); // box for timetable
   await Hive.openBox<ExamModel>('exams'); // box for exams
   await Hive.openBox<Note>('notes'); // box for notes
+  await Hive.openBox<AITutorDocument>(
+    'ai_tutor_documents',
+  ); // box for AI tutor docs
 
   await LectureNotificationService.init();
   await ExamNotificationService.init();
@@ -70,6 +77,7 @@ class MyApp extends StatelessWidget {
         '/exam-timetable': (context) => const ExamTimetablePage(),
         '/notes': (context) => const NotesPage(),
         '/result': (context) => const ResultPage(),
+        '/ai-tutor': (context) => const AITutorPage(),
       }, // home: Home(),
     );
   }

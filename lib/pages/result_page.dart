@@ -49,7 +49,7 @@ class _ResultPageState extends State<ResultPage> {
                   vertical: 14,
                 ),
               ),
-              value: _selectedSession,
+              initialValue: _selectedSession,
               items: _sessions.map((session) {
                 return DropdownMenuItem(value: session, child: Text(session));
               }).toList(),
@@ -74,7 +74,7 @@ class _ResultPageState extends State<ResultPage> {
                   vertical: 14,
                 ),
               ),
-              value: _selectedSemester,
+              initialValue: _selectedSemester,
               items: _semesters.map((semester) {
                 return DropdownMenuItem(value: semester, child: Text(semester));
               }).toList(),
