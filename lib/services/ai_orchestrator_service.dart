@@ -102,4 +102,42 @@ class AiOrchestratorService {
   String getCurrentProviderName() {
     return _providers[_currentProviderIndex].id;
   }
+
+  /// Executes an educational prompt using Gemini as primary (with optional PDF bytes),
+  /// falling back to alternative providers if needed.
+  Future<String> executeDirectPrompt(String prompt, {dynamic pdfBytes}) async {
+    // 1. Try Gemini first
+    for (final provider in _providers) {
+      if (provider is GeminiAiProvider) {
+        try {
+          debugPrint("🤖 Orchestrator: Generating via Gemini...");
+          return await provider.generatePrompt(
+            prompt: prompt,
+            pdfBytes: pdfBytes,
+          );
+        } catch (e) {
+          debugPrint("❌ Orchestrator: Gemini direct generation failed: $e");
+          break; // move to fallback providers
+        }
+      }
+    }
+
+    // 2. If Gemini failed, try fallback providers for text-only prompt
+    for (final provider in _providers) {
+      if (provider is! GeminiAiProvider) {
+        try {
+          debugPrint(
+            "🤖 Orchestrator: Fallback to ${provider.id} for prompt...",
+          );
+          return await provider.sendMessage(prompt);
+        } catch (e) {
+          debugPrint("❌ Orchestrator: ${provider.id} failed: $e");
+        }
+      }
+    }
+
+    throw Exception(
+      'Unable to connect to AI Tutor service. Please check your internet connection and try again.',
+    );
+  }
 }

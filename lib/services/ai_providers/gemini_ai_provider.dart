@@ -54,4 +54,32 @@ class GeminiAiProvider implements AiProvider {
       rethrow; // Let Orchestrator handle fallback
     }
   }
+
+  /// Direct generation support for educational tasks with optional multimodal PDF bytes
+  Future<String> generatePrompt({
+    required String prompt,
+    Uint8List? pdfBytes,
+  }) async {
+    if (_model == null) {
+      _init();
+      if (_model == null) throw Exception('Gemini API Key missing');
+    }
+
+    try {
+      final List<Part> parts = [];
+      if (pdfBytes != null && pdfBytes.isNotEmpty) {
+        parts.add(DataPart('application/pdf', pdfBytes));
+      }
+      parts.add(TextPart(prompt));
+
+      final response = await _model!.generateContent([Content.multi(parts)]);
+      if (response.text == null || response.text!.isEmpty) {
+        throw Exception('Empty response from Gemini');
+      }
+      return response.text!;
+    } catch (e) {
+      debugPrint("❌ Gemini generatePrompt Failed: $e");
+      rethrow;
+    }
+  }
 }

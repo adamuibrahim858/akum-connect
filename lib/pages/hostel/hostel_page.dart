@@ -27,7 +27,10 @@ class HostelPage extends StatelessWidget {
             ),
             elevation: 2,
             child: ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 12,
+              ),
               leading: const CircleAvatar(
                 backgroundColor: Colors.green,
                 child: Icon(Icons.apartment, color: Colors.white),

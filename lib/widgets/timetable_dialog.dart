@@ -70,7 +70,11 @@ class _TimetableDialogState extends State<TimetableDialog> {
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.access_time, size: 16, color: Colors.green),
+                    const Icon(
+                      Icons.access_time,
+                      size: 16,
+                      color: Colors.green,
+                    ),
                     const SizedBox(width: 8),
                     Text(
                       '${widget.day} | ${widget.timeSlot}',

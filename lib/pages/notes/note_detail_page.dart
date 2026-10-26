@@ -78,10 +78,7 @@ class NoteDetailPage extends StatelessWidget {
             Text(
               note.content,
               textAlign: TextAlign.justify,
-              style: const TextStyle(
-                fontSize: 18,
-                height: 1.5,
-              ),
+              style: const TextStyle(fontSize: 18, height: 1.5),
             ),
           ],
         ),

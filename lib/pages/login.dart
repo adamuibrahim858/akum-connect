@@ -29,9 +29,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   children: [
                     Image.asset(
-                      "assets/images/akumlogo.png",  // replace with your image file name
+                      "assets/images/akumlogo.png", // replace with your image file name
                       height: 90,
-                    ),                    SizedBox(height: 10),
+                    ),
+                    SizedBox(height: 10),
                     Text(
                       "AKUM CONNECT",
                       style: TextStyle(
@@ -74,7 +75,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   prefixIcon: const Icon(Icons.lock),
                   suffixIcon: IconButton(
                     icon: Icon(
-                        _obscurePassword ? Icons.visibility : Icons.visibility_off),
+                      _obscurePassword
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                    ),
                     onPressed: () {
                       setState(() {
                         _obscurePassword = !_obscurePassword;

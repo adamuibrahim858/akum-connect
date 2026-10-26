@@ -4,6 +4,11 @@ import 'package:intl/intl.dart';
 import '../../models/ai_tutor_model.dart';
 import '../../services/ai_tutor_storage_service.dart';
 import 'add_task_dialog.dart';
+import 'summary_view_page.dart';
+import 'essay_practice_page.dart';
+import 'essay_results_page.dart';
+import 'objective_practice_page.dart';
+import 'objective_results_page.dart';
 
 class AITutorTasksPage extends StatefulWidget {
   final String documentId;
@@ -15,6 +20,203 @@ class AITutorTasksPage extends StatefulWidget {
 }
 
 class _AITutorTasksPageState extends State<AITutorTasksPage> {
+  void _openTask(AITutorDocument doc, AITutorTask task) {
+    if (task.type == kTaskTypeSummarize) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SummaryViewPage(document: doc, task: task),
+        ),
+      );
+    } else if (task.type == kTaskTypeEssay) {
+      if (task.latestAttempt != null) {
+        // Show choice dialog: View Results or Retake Exam
+        showModalBottomSheet(
+          context: context,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          builder: (ctx) => Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  task.title,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Latest Score: ${task.latestAttempt!.percentage.toStringAsFixed(0)}% • ${task.latestAttempt!.performance}',
+                  style: TextStyle(fontSize: 13, color: Colors.grey[700]),
+                ),
+                const SizedBox(height: 20),
+                ListTile(
+                  leading: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.green.shade50,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Icon(
+                      Icons.assessment_outlined,
+                      color: Colors.green,
+                    ),
+                  ),
+                  title: const Text(
+                    'View Last Result & AI Feedback',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  onTap: () {
+                    Navigator.pop(ctx);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EssayResultsPage(
+                          document: doc,
+                          task: task,
+                          attempt: task.latestAttempt!,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.blue.shade50,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Icon(Icons.refresh, color: Colors.blue),
+                  ),
+                  title: const Text(
+                    'Retake Practice Exam',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  onTap: () {
+                    Navigator.pop(ctx);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            EssayPracticePage(document: doc, task: task),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      } else {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => EssayPracticePage(document: doc, task: task),
+          ),
+        );
+      }
+    } else if (task.type == kTaskTypeObjective) {
+      if (task.latestAttempt != null) {
+        showModalBottomSheet(
+          context: context,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          builder: (ctx) => Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  task.title,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Latest Score: ${task.latestAttempt!.percentage.toStringAsFixed(0)}% • ${task.latestAttempt!.performance}',
+                  style: TextStyle(fontSize: 13, color: Colors.grey[700]),
+                ),
+                const SizedBox(height: 20),
+                ListTile(
+                  leading: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.green.shade50,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Icon(
+                      Icons.assessment_outlined,
+                      color: Colors.green,
+                    ),
+                  ),
+                  title: const Text(
+                    'View Last Result & Review',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  onTap: () {
+                    Navigator.pop(ctx);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ObjectiveResultsPage(
+                          document: doc,
+                          task: task,
+                          attempt: task.latestAttempt!,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.blue.shade50,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Icon(Icons.refresh, color: Colors.blue),
+                  ),
+                  title: const Text(
+                    'Retake Objective Test',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  onTap: () {
+                    Navigator.pop(ctx);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ObjectivePracticePage(document: doc, task: task),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      } else {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                ObjectivePracticePage(document: doc, task: task),
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -134,7 +336,7 @@ class _AITutorTasksPageState extends State<AITutorTasksPage> {
               Expanded(
                 child: tasks.isEmpty
                     ? Center(
-                        child: Padding(
+                        child: SingleChildScrollView(
                           padding: const EdgeInsets.all(32.0),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -154,16 +356,16 @@ class _AITutorTasksPageState extends State<AITutorTasksPage> {
                               ),
                               const SizedBox(height: 18),
                               const Text(
-                                'No tasks added yet.',
+                                'No tasks yet',
                                 style: TextStyle(
-                                  fontSize: 18,
+                                  fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black87,
                                 ),
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                'Tap the "Add Task" button below to create questions or study prompts for this document.',
+                                'Create your first AI-powered learning task\nfrom this document.',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 14,
@@ -200,128 +402,7 @@ class _AITutorTasksPageState extends State<AITutorTasksPage> {
                             const SizedBox(height: 12),
                         itemBuilder: (context, index) {
                           final task = tasks[index];
-                          return Card(
-                            elevation: 1.5,
-                            margin: EdgeInsets.zero,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(14),
-                              side: BorderSide(
-                                color: task.isCompleted
-                                    ? Colors.green.shade200
-                                    : Colors.grey.shade200,
-                              ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(14.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  // Completion Checkbox
-                                  Checkbox(
-                                    value: task.isCompleted,
-                                    activeColor: Colors.green,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                    onChanged: (_) async {
-                                      await AITutorStorageService.toggleTaskStatus(
-                                        doc,
-                                        task.id,
-                                      );
-                                    },
-                                  ),
-                                  const SizedBox(width: 8),
-                                  // Task Content
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          task.title,
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold,
-                                            decoration: task.isCompleted
-                                                ? TextDecoration.lineThrough
-                                                : null,
-                                            color: task.isCompleted
-                                                ? Colors.grey
-                                                : Colors.black87,
-                                          ),
-                                        ),
-                                        if (task.description.isNotEmpty) ...[
-                                          const SizedBox(height: 6),
-                                          Text(
-                                            task.description,
-                                            style: TextStyle(
-                                              fontSize: 13,
-                                              color: Colors.grey[700],
-                                              height: 1.3,
-                                            ),
-                                          ),
-                                        ],
-                                        const SizedBox(height: 8),
-                                        Text(
-                                          DateFormat(
-                                            'MMM d, y • h:mm a',
-                                          ).format(task.createdAt),
-                                          style: TextStyle(
-                                            fontSize: 11,
-                                            color: Colors.grey[400],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  // Delete button
-                                  IconButton(
-                                    icon: const Icon(
-                                      Icons.delete_outline,
-                                      color: Colors.grey,
-                                      size: 20,
-                                    ),
-                                    tooltip: 'Delete task',
-                                    onPressed: () async {
-                                      final confirm = await showDialog<bool>(
-                                        context: context,
-                                        builder: (ctx) => AlertDialog(
-                                          title: const Text('Delete Task?'),
-                                          content: Text(
-                                            'Are you sure you want to remove "${task.title}"?',
-                                          ),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () =>
-                                                  Navigator.pop(ctx, false),
-                                              child: const Text('Cancel'),
-                                            ),
-                                            TextButton(
-                                              onPressed: () =>
-                                                  Navigator.pop(ctx, true),
-                                              child: const Text(
-                                                'Delete',
-                                                style: TextStyle(
-                                                  color: Colors.red,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-
-                                      if (confirm == true) {
-                                        await AITutorStorageService.deleteTask(
-                                          doc,
-                                          task.id,
-                                        );
-                                      }
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
+                          return _buildTaskCard(doc, task);
                         },
                       ),
               ),
@@ -345,6 +426,240 @@ class _AITutorTasksPageState extends State<AITutorTasksPage> {
         foregroundColor: Colors.white,
         icon: const Icon(Icons.add),
         label: const Text('Add Task'),
+      ),
+    );
+  }
+
+  Widget _buildTaskCard(AITutorDocument doc, AITutorTask task) {
+    IconData taskIcon;
+    Color iconColor;
+    String typeLabel;
+
+    if (task.type == kTaskTypeEssay) {
+      taskIcon = Icons.edit_note_rounded;
+      iconColor = Colors.orange;
+      typeLabel = 'Essay Practice';
+    } else if (task.type == kTaskTypeObjective) {
+      taskIcon = Icons.quiz_rounded;
+      iconColor = Colors.blue;
+      typeLabel = 'Objective Practice';
+    } else {
+      taskIcon = Icons.menu_book_rounded;
+      iconColor = Colors.green;
+      typeLabel = 'Summary';
+    }
+
+    final isFailed = task.status == kTaskStatusFailed;
+
+    return Card(
+      elevation: 1.5,
+      margin: EdgeInsets.zero,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(14),
+        side: BorderSide(
+          color: isFailed ? Colors.red.shade200 : Colors.grey.shade200,
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Type Icon Badge
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: iconColor.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Icon(taskIcon, color: iconColor, size: 24),
+                ),
+                const SizedBox(width: 12),
+
+                // Title and Meta Info
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        task.title,
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: iconColor.withValues(alpha: 0.1),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Text(
+                              typeLabel,
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                                color: iconColor,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            DateFormat(
+                              'MMM d, y • h:mm a',
+                            ).format(task.createdAt),
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: Colors.grey[500],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Delete Icon
+                IconButton(
+                  icon: const Icon(
+                    Icons.delete_outline,
+                    color: Colors.grey,
+                    size: 20,
+                  ),
+                  tooltip: 'Delete task',
+                  onPressed: () async {
+                    final confirm = await showDialog<bool>(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                        title: const Text('Delete Task?'),
+                        content: Text(
+                          'Are you sure you want to delete "${task.title}"?',
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(ctx, false),
+                            child: const Text('Cancel'),
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.pop(ctx, true),
+                            child: const Text(
+                              'Delete',
+                              style: TextStyle(color: Colors.red),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+
+                    if (confirm == true) {
+                      await AITutorStorageService.deleteTask(doc, task.id);
+                    }
+                  },
+                ),
+              ],
+            ),
+
+            // Performance / Attempt badge if available
+            if (task.latestAttempt != null) ...[
+              const SizedBox(height: 10),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.green.shade50,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.green.shade200),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      Icons.stars_rounded,
+                      color: Colors.green,
+                      size: 16,
+                    ),
+                    const SizedBox(width: 6),
+                    Text(
+                      'Latest Score: ${task.latestAttempt!.percentage.toStringAsFixed(0)}% • ${task.latestAttempt!.performance}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green.shade900,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+
+            // Failed error display & retry
+            if (isFailed) ...[
+              const SizedBox(height: 10),
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.red.shade50,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.red.shade200),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.error_outline,
+                      color: Colors.red,
+                      size: 18,
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        task.errorMessage ?? 'Task generation failed.',
+                        style: const TextStyle(color: Colors.red, fontSize: 12),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+
+            const Divider(height: 20),
+
+            // Open Action Button
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ElevatedButton.icon(
+                  onPressed: isFailed ? null : () => _openTask(doc, task),
+                  icon: const Icon(Icons.arrow_forward_rounded, size: 16),
+                  label: const Text('Open'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 10,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

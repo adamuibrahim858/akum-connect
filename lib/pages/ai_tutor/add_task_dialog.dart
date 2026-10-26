@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../models/ai_tutor_model.dart';
+import '../../services/ai_tutor_service.dart';
 import '../../services/ai_tutor_storage_service.dart';
+import '../../services/pdf_extractor_service.dart';
 
 class AddTaskDialog extends StatefulWidget {
   final AITutorDocument document;
@@ -11,6 +13,8 @@ class AddTaskDialog extends StatefulWidget {
     return showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
+      isDismissible: false,
+      enableDrag: false,
       backgroundColor: Colors.transparent,
       builder: (context) => AddTaskDialog(document: document),
     );
@@ -23,49 +27,146 @@ class AddTaskDialog extends StatefulWidget {
 class _AddTaskDialogState extends State<AddTaskDialog> {
   final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
-  final _descriptionController = TextEditingController();
-  bool _isSubmitting = false;
+  final AiTutorService _aiTutorService = AiTutorService();
+
+  // Dropdown options matching specifications exactly
+  static const String optionSummarize = 'Summarize';
+  static const String optionEssay = 'Practice Questions (Essay)';
+  static const String optionObjective = 'Practice Questions (Objective)';
+
+  final List<String> _taskTypeOptions = [
+    optionSummarize,
+    optionEssay,
+    optionObjective,
+  ];
+
+  String _selectedTaskType = optionSummarize;
+  bool _isGenerating = false;
+  String _loadingMessage = 'AI is studying your document...';
 
   @override
   void dispose() {
     _titleController.dispose();
-    _descriptionController.dispose();
     super.dispose();
   }
 
-  Future<void> _handleSubmit() async {
+  Future<void> _handleCreateTask() async {
     if (!_formKey.currentState!.validate()) return;
 
+    final title = _titleController.text.trim();
+
     setState(() {
-      _isSubmitting = true;
+      _isGenerating = true;
+      _loadingMessage = 'AI is studying your document...';
     });
 
     try {
-      await AITutorStorageService.addTask(
-        widget.document,
-        title: _titleController.text,
-        description: _descriptionController.text,
-      );
+      // 1. Extract and process PDF content
+      final ExtractedPdfData pdfData =
+          await PdfExtractorService.extractFromPath(widget.document.pdfPath);
+
+      // Check if text is present
+      final hasText = pdfData.text.trim().isNotEmpty;
+      final rawBytes = pdfData.rawBytes;
+
+      if (!hasText && rawBytes.isEmpty) {
+        throw Exception('The PDF contains no readable text or content.');
+      }
+
+      setState(() {
+        _loadingMessage = 'Generating your learning task with AI...';
+      });
+
+      // 2. Dispatch to existing Gemini/AKUM AI Tutor service
+      if (_selectedTaskType == optionSummarize) {
+        final summaryMarkdown = await _aiTutorService.summarizeDocument(
+          documentText: pdfData.text,
+          rawBytes: pdfData.isScannedOrEmptyText ? rawBytes : null,
+          title: widget.document.title,
+        );
+
+        await AITutorStorageService.addTask(
+          widget.document,
+          title: title,
+          type: kTaskTypeSummarize,
+          status: kTaskStatusCompleted,
+          generatedContent: summaryMarkdown,
+        );
+      } else if (_selectedTaskType == optionEssay) {
+        final questions = await _aiTutorService.generateEssayQuestions(
+          documentText: pdfData.text,
+          rawBytes: pdfData.isScannedOrEmptyText ? rawBytes : null,
+          title: widget.document.title,
+          count: 10,
+        );
+
+        final task = await AITutorStorageService.addTask(
+          widget.document,
+          title: title,
+          type: kTaskTypeEssay,
+          status: kTaskStatusCompleted,
+        );
+
+        task.questions = questions;
+        await widget.document.save();
+      } else if (_selectedTaskType == optionObjective) {
+        final questions = await _aiTutorService.generateObjectiveQuestions(
+          documentText: pdfData.text,
+          rawBytes: pdfData.isScannedOrEmptyText ? rawBytes : null,
+          title: widget.document.title,
+          count: 10,
+        );
+
+        final task = await AITutorStorageService.addTask(
+          widget.document,
+          title: title,
+          type: kTaskTypeObjective,
+          status: kTaskStatusCompleted,
+        );
+
+        task.questions = questions;
+        await widget.document.save();
+      }
 
       if (!mounted) return;
       Navigator.pop(context, true);
+
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Task added successfully!'),
-          backgroundColor: Colors.green,
+        SnackBar(
+          content: Text('Task "$title" generated successfully!'),
+          backgroundColor: Colors.green.shade800,
           behavior: SnackBarBehavior.floating,
         ),
       );
     } catch (e) {
       if (!mounted) return;
       setState(() {
-        _isSubmitting = false;
+        _isGenerating = false;
       });
+
+      String userMessage = 'AI Tutor could not generate this task right now.';
+      final errString = e.toString().toLowerCase();
+
+      if (errString.contains('internet') ||
+          errString.contains('socket') ||
+          errString.contains('network')) {
+        userMessage =
+            'AI Tutor could not generate this task right now. Please check your internet connection and try again.';
+      } else if (errString.contains('empty') || errString.contains('0 bytes')) {
+        userMessage =
+            'The selected document is empty or unreadable. Please check your PDF file.';
+      } else if (errString.contains('quota') ||
+          errString.contains('rate limit')) {
+        userMessage =
+            'AI capacity limit reached. Please wait a moment and try again.';
+      }
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed to add task: $e'),
+          content: Text(userMessage),
           backgroundColor: Colors.red,
           behavior: SnackBarBehavior.floating,
+          duration: const Duration(seconds: 4),
         ),
       );
     }
@@ -146,10 +247,11 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
                       ],
                     ),
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.close, color: Colors.grey),
-                    onPressed: () => Navigator.pop(context),
-                  ),
+                  if (!_isGenerating)
+                    IconButton(
+                      icon: const Icon(Icons.close, color: Colors.grey),
+                      onPressed: () => Navigator.pop(context),
+                    ),
                 ],
               ),
 
@@ -167,8 +269,9 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
               const SizedBox(height: 6),
               TextFormField(
                 controller: _titleController,
+                enabled: !_isGenerating,
                 decoration: InputDecoration(
-                  hintText: 'e.g., Read Chapter 1 & Summarize',
+                  hintText: 'e.g., Introduction to Trigonometry Summary',
                   hintStyle: TextStyle(color: Colors.grey[400], fontSize: 14),
                   prefixIcon: const Icon(
                     Icons.title,
@@ -204,9 +307,9 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
 
               const SizedBox(height: 16),
 
-              // Description / Instructions
+              // Task Type Dropdown
               const Text(
-                'Description or Notes (Optional)',
+                'Task Type',
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 14,
@@ -214,15 +317,46 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
                 ),
               ),
               const SizedBox(height: 6),
-              TextFormField(
-                controller: _descriptionController,
-                maxLines: 3,
+              DropdownButtonFormField<String>(
+                initialValue: _selectedTaskType,
+                items: _taskTypeOptions.map((option) {
+                  IconData icon = Icons.description_outlined;
+                  if (option == optionEssay) icon = Icons.edit_note_rounded;
+                  if (option == optionObjective) icon = Icons.quiz_outlined;
+
+                  return DropdownMenuItem<String>(
+                    value: option,
+                    child: Row(
+                      children: [
+                        Icon(icon, size: 20, color: Colors.green.shade700),
+                        const SizedBox(width: 10),
+                        Text(
+                          option,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }).toList(),
+                onChanged: _isGenerating
+                    ? null
+                    : (val) {
+                        if (val != null) {
+                          setState(() {
+                            _selectedTaskType = val;
+                          });
+                        }
+                      },
                 decoration: InputDecoration(
-                  hintText: 'Enter specific questions or instructions...',
-                  hintStyle: TextStyle(color: Colors.grey[400], fontSize: 14),
                   filled: true,
                   fillColor: Colors.grey[50],
-                  contentPadding: const EdgeInsets.all(14),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 14,
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: BorderSide(color: Colors.grey.shade300),
@@ -240,33 +374,71 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
 
               const SizedBox(height: 24),
 
-              // Submit button
+              // Loading State Display
+              if (_isGenerating) ...[
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.green.shade50,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.green.shade200),
+                  ),
+                  child: Row(
+                    children: [
+                      const SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2.5,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            Colors.green,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: Text(
+                          _loadingMessage,
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.green.shade900,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+              ],
+
+              // Create Task Button
               SizedBox(
                 width: double.infinity,
                 height: 48,
                 child: ElevatedButton(
-                  onPressed: _isSubmitting ? null : _handleSubmit,
+                  onPressed: _isGenerating ? null : _handleCreateTask,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
                     foregroundColor: Colors.white,
+                    disabledBackgroundColor: Colors.green.shade200,
+                    disabledForegroundColor: Colors.white70,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                     elevation: 1,
                   ),
-                  child: _isSubmitting
-                      ? const SizedBox(
-                          width: 22,
-                          height: 22,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2.5,
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              Colors.white,
-                            ),
+                  child: _isGenerating
+                      ? const Text(
+                          'Processing...',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
                           ),
                         )
                       : const Text(
-                          'Save Task',
+                          'Create Task',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,

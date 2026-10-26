@@ -146,7 +146,7 @@ class _TimetablePageState extends State<TimetablePage> {
                                       'Day',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.white
+                                        color: Colors.white,
                                       ),
                                     ),
                                   ),
@@ -195,7 +195,12 @@ class _TimetablePageState extends State<TimetablePage> {
                                         child: Container(
                                           height: 30,
                                           color: entry != null
-                                              ? const Color.fromARGB(255, 188, 245, 202)
+                                              ? const Color.fromARGB(
+                                                  255,
+                                                  188,
+                                                  245,
+                                                  202,
+                                                )
                                               : Colors.white,
                                           alignment: Alignment.center,
                                           padding: const EdgeInsets.all(4),
@@ -259,25 +264,37 @@ class _TimetablePageState extends State<TimetablePage> {
                           DataColumn(
                             label: Text(
                               'S/N',
-                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                           DataColumn(
                             label: Text(
                               'Course Code',
-                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                           DataColumn(
                             label: Text(
                               'Course Title',
-                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                           DataColumn(
                             label: Text(
                               'Lecturer Name',
-                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ],

@@ -4,7 +4,10 @@ import '../../models/course_model.dart';
 class CourseRegistrationSummaryPage extends StatelessWidget {
   final List<Course> registeredCourses;
 
-  const CourseRegistrationSummaryPage({super.key, required this.registeredCourses});
+  const CourseRegistrationSummaryPage({
+    super.key,
+    required this.registeredCourses,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +38,18 @@ class CourseRegistrationSummaryPage extends StatelessWidget {
             ),
             const Divider(height: 30, thickness: 2),
             const SizedBox(height: 10),
-            const Text("Student Name: John Doe", style: TextStyle(fontSize: 16)),
-            const Text("Matric Number: AKUM/2023/001", style: TextStyle(fontSize: 16)),
-            const Text("Department: Computer Science", style: TextStyle(fontSize: 16)),
+            const Text(
+              "Student Name: John Doe",
+              style: TextStyle(fontSize: 16),
+            ),
+            const Text(
+              "Matric Number: AKUM/2023/001",
+              style: TextStyle(fontSize: 16),
+            ),
+            const Text(
+              "Department: Computer Science",
+              style: TextStyle(fontSize: 16),
+            ),
             const Text("Level: 400L", style: TextStyle(fontSize: 16)),
             const SizedBox(height: 20),
             const Text(
@@ -53,7 +65,8 @@ class CourseRegistrationSummaryPage extends StatelessWidget {
                 ),
                 child: ListView.separated(
                   itemCount: registeredCourses.length + 1,
-                  separatorBuilder: (context, index) => const Divider(height: 1),
+                  separatorBuilder: (context, index) =>
+                      const Divider(height: 1),
                   itemBuilder: (context, index) {
                     if (index == registeredCourses.length) {
                       // Total row
@@ -64,7 +77,10 @@ class CourseRegistrationSummaryPage extends StatelessWidget {
                         ),
                         trailing: Text(
                           "$totalUnits",
-                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
                         ),
                       );
                     }

@@ -17,7 +17,6 @@ class _TodoAppState extends State<TodoApp> {
     {"title": "I want to code", "done": true},
     {"title": "Read 20 pages of a book", "done": false},
     {"title": "I will go to school", "done": false},
-
   ];
 
   final TextEditingController _taskC = TextEditingController();
@@ -49,10 +48,7 @@ class _TodoAppState extends State<TodoApp> {
             onPressed: () => Navigator.pop(ctx),
             child: const Text("Cancel"),
           ),
-          ElevatedButton(
-            onPressed: _addTask,
-            child: const Text("Add"),
-          ),
+          ElevatedButton(onPressed: _addTask, child: const Text("Add")),
         ],
       ),
     );
@@ -65,8 +61,10 @@ class _TodoAppState extends State<TodoApp> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.greenAccent,
-        title: const Text("To-Do List",
-            style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text(
+          "To-Do List",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
       ),
       body: ListView.separated(
@@ -99,7 +97,7 @@ class _TodoAppState extends State<TodoApp> {
                     color: Colors.black12,
                     blurRadius: 6,
                     offset: const Offset(0, 3),
-                  )
+                  ),
                 ],
               ),
               child: ListTile(
@@ -122,8 +120,11 @@ class _TodoAppState extends State<TodoApp> {
                     color: task["done"] ? Colors.grey : Colors.black,
                   ),
                 ),
-                trailing: const Icon(Icons.arrow_forward_ios,
-                    size: 16, color: Colors.grey),
+                trailing: const Icon(
+                  Icons.arrow_forward_ios,
+                  size: 16,
+                  color: Colors.grey,
+                ),
               ),
             ),
           );
@@ -134,9 +135,7 @@ class _TodoAppState extends State<TodoApp> {
         label: const Text("Add Task"),
         icon: const Icon(Icons.add),
         backgroundColor: Colors.greenAccent,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
       ),
     );
   }

@@ -109,26 +109,27 @@ class _BedSelectionPageState extends State<BedSelectionPage> {
               const Divider(height: 30),
               const Text(
                 "Facilities included:",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
               Wrap(
                 spacing: 8,
                 runSpacing: 8,
-                children: bed.facilities.map((f) => Chip(label: Text(f))).toList(),
+                children: bed.facilities
+                    .map((f) => Chip(label: Text(f)))
+                    .toList(),
               ),
               const SizedBox(height: 24),
               SizedBox(
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: bed.isAvailable ? () {
-                    Navigator.pop(context);
-                    _reserveBed(bed);
-                  } : null,
+                  onPressed: bed.isAvailable
+                      ? () {
+                          Navigator.pop(context);
+                          _reserveBed(bed);
+                        }
+                      : null,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
                     foregroundColor: Colors.white,
@@ -166,13 +167,18 @@ class _BedSelectionPageState extends State<BedSelectionPage> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
               side: BorderSide(
-                color: bed.isAvailable ? Colors.green.withValues(alpha:0.5) : Colors.grey.shade300,
+                color: bed.isAvailable
+                    ? Colors.green.withValues(alpha: 0.5)
+                    : Colors.grey.shade300,
                 width: 1,
               ),
             ),
             elevation: bed.isAvailable ? 2 : 0,
             child: ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 12,
+              ),
               leading: CircleAvatar(
                 backgroundColor: bed.isAvailable ? Colors.green : Colors.grey,
                 child: const Icon(Icons.single_bed, color: Colors.white),
@@ -192,7 +198,9 @@ class _BedSelectionPageState extends State<BedSelectionPage> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              trailing: bed.isAvailable ? const Icon(Icons.check_circle_outline, color: Colors.green) : const Icon(Icons.block, color: Colors.red),
+              trailing: bed.isAvailable
+                  ? const Icon(Icons.check_circle_outline, color: Colors.green)
+                  : const Icon(Icons.block, color: Colors.red),
               onTap: () {
                 _showBedDetails(bed);
               },

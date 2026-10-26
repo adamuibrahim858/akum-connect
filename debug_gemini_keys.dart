@@ -27,7 +27,9 @@ void main() async {
     "gemini-1.0-pro",
   ];
 
-  debugPrint("🔍 Testing ${keys.length} keys against ${models.length} models...\n");
+  debugPrint(
+    "🔍 Testing ${keys.length} keys against ${models.length} models...\n",
+  );
 
   for (var i = 0; i < keys.length; i++) {
     final key = keys[i];

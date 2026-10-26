@@ -68,7 +68,9 @@ Future<void> _testGemini(String? key) async {
       if (models.contains('gemini-2.5-flash')) {
         debugPrint("✅ gemini-2.5-flash IS available!");
       } else {
-        debugPrint("⚠️ gemini-2.5-flash is NOT in the list of available models.");
+        debugPrint(
+          "⚠️ gemini-2.5-flash is NOT in the list of available models.",
+        );
       }
     } else {
       debugPrint("❌ Failed to list models. Status: ${listResponse.statusCode}");

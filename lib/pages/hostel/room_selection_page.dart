@@ -29,7 +29,10 @@ class RoomSelectionPage extends StatelessWidget {
             ),
             elevation: 2,
             child: ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 12,
+              ),
               leading: const CircleAvatar(
                 backgroundColor: Colors.blueAccent,
                 child: Icon(Icons.door_front_door, color: Colors.white),

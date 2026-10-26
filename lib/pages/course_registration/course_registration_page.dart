@@ -40,7 +40,9 @@ class _CourseRegistrationPageState extends State<CourseRegistrationPage> {
       builder: (context) {
         return AlertDialog(
           title: const Text("Registration Successful"),
-          content: const Text("Your courses have been successfully registered for this semester."),
+          content: const Text(
+            "Your courses have been successfully registered for this semester.",
+          ),
           actions: [
             TextButton(
               onPressed: () {
@@ -81,19 +83,33 @@ class _CourseRegistrationPageState extends State<CourseRegistrationPage> {
               children: [
                 Column(
                   children: [
-                    const Text("Selected Courses", style: TextStyle(fontWeight: FontWeight.bold)),
+                    const Text(
+                      "Selected Courses",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     Text(
                       "${selectedCourseCodes.length}",
-                      style: const TextStyle(fontSize: 24, color: Colors.green, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                        fontSize: 24,
+                        color: Colors.green,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
                 Column(
                   children: [
-                    const Text("Total Units", style: TextStyle(fontWeight: FontWeight.bold)),
+                    const Text(
+                      "Total Units",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     Text(
                       "$totalCreditUnits",
-                      style: const TextStyle(fontSize: 24, color: Colors.blue, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                        fontSize: 24,
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
@@ -132,7 +148,9 @@ class _CourseRegistrationPageState extends State<CourseRegistrationPage> {
                       "${course.code} - ${course.title}",
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    subtitle: Text("${course.creditUnit} Units • ${course.department}"),
+                    subtitle: Text(
+                      "${course.creditUnit} Units • ${course.department}",
+                    ),
                     activeColor: Colors.green,
                     checkColor: Colors.white,
                     secondary: const Icon(Icons.book, color: Colors.grey),

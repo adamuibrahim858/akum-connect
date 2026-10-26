@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'marketplace/marketplace_page.dart';
 import 'news/news_list_page.dart';
@@ -7,6 +8,7 @@ import 'course_registration/course_registration_page.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
 import '../models/timetable_entry.dart';
+import '../models/student_info.dart';
 import '../services/lecture_notification_service.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -45,41 +47,141 @@ class _DashboardPageState extends State<DashboardPage> {
           // Top Header
           Container(
             width: double.infinity,
-            height: 200.0,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
-            decoration: const BoxDecoration(
-              color: Colors.green,
-              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(40)),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
-                      "Hi Student!",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      "Welcome to AKUM CONNECT",
-                      style: TextStyle(color: Colors.white70, fontSize: 20),
-                    ),
-                  ],
+            padding: const EdgeInsets.fromLTRB(20, 56, 20, 24),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.green.shade800, Colors.green.shade600],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(36),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.green.withValues(alpha: 0.25),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
                 ),
-                // const CircleAvatar(
-                //   radius: 32,
-                //   backgroundImage: AssetImage(
-                //     "assets/images/akumlogo.png",
-                //   ), // sample avatar
-                // ),
               ],
             ),
+            child: Hive.isBoxOpen('students')
+                ? ValueListenableBuilder<Box<Student>>(
+                    valueListenable: Hive.box<Student>('students').listenable(),
+                    builder: (context, box, _) {
+                      final student =
+                          box.isNotEmpty ? box.getAt(box.length - 1) : null;
+                      final name = student != null
+                          ? student.fullName.split(' ').first
+                          : 'Student';
+
+                      final hasPhoto = student?.profileImagePath != null &&
+                          student!.profileImagePath!.isNotEmpty &&
+                          File(student.profileImagePath!).existsSync();
+
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Hi, $name!",
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  student != null
+                                      ? student.course
+                                      : "Welcome to AKUM CONNECT",
+                                  style: const TextStyle(
+                                    color: Colors.white70,
+                                    fontSize: 14,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          InkWell(
+                            onTap: () =>
+                                Navigator.pushNamed(context, '/profile'),
+                            borderRadius: BorderRadius.circular(30),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border:
+                                    Border.all(color: Colors.white, width: 2.5),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withValues(alpha: 0.15),
+                                    blurRadius: 6,
+                                  ),
+                                ],
+                              ),
+                              child: CircleAvatar(
+                                radius: 25,
+                                backgroundColor: Colors.white,
+                                backgroundImage: hasPhoto
+                                    ? FileImage(
+                                        File(student.profileImagePath!),
+                                      )
+                                    : null,
+                                child: !hasPhoto
+                                    ? Text(
+                                        student?.initials ?? 'AK',
+                                        style: TextStyle(
+                                          color: Colors.green.shade800,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ),
+                                      )
+                                    : null,
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text(
+                            "Hi Student!",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 5),
+                          Text(
+                            "Welcome to AKUM CONNECT",
+                            style:
+                                TextStyle(color: Colors.white70, fontSize: 16),
+                          ),
+                        ],
+                      ),
+                      CircleAvatar(
+                        radius: 25,
+                        backgroundColor: Colors.white24,
+                        child: const Icon(Icons.person, color: Colors.white),
+                      ),
+                    ],
+                  ),
           ),
 
           // const SizedBox(height: 1),

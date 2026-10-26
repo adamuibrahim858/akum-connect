@@ -216,7 +216,9 @@ class ExamCard extends StatelessWidget {
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    color: (statusData['color'] as Color).withValues(alpha: 0.1),
+                    color: (statusData['color'] as Color).withValues(
+                      alpha: 0.1,
+                    ),
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(color: statusData['color'] as Color),
                   ),

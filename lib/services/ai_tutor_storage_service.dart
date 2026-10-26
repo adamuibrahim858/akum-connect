@@ -79,18 +79,55 @@ class AITutorStorageService {
     AITutorDocument doc, {
     required String title,
     String description = '',
+    String type = kTaskTypeSummarize,
+    String status = kTaskStatusCompleted,
+    String generatedContent = '',
+    String questionsJson = '[]',
+    String? errorMessage,
   }) async {
     final task = AITutorTask(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       documentId: doc.id,
       title: title.trim(),
       description: description.trim(),
+      type: type,
+      status: status,
+      generatedContent: generatedContent,
+      questionsJson: questionsJson,
       createdAt: DateTime.now(),
+      errorMessage: errorMessage,
     );
 
     doc.tasks.add(task);
     await doc.save();
     return task;
+  }
+
+  /// Updates an existing task on a document
+  static Future<void> updateTask(
+    AITutorDocument doc,
+    AITutorTask updatedTask,
+  ) async {
+    final index = doc.tasks.indexWhere((t) => t.id == updatedTask.id);
+    if (index != -1) {
+      updatedTask.updatedAt = DateTime.now();
+      doc.tasks[index] = updatedTask;
+      await doc.save();
+    }
+  }
+
+  /// Records a new attempt for a task
+  static Future<void> recordAttempt(
+    AITutorDocument doc,
+    String taskId,
+    AITutorAttempt attempt,
+  ) async {
+    final index = doc.tasks.indexWhere((t) => t.id == taskId);
+    if (index != -1) {
+      final task = doc.tasks[index];
+      task.addAttempt(attempt);
+      await doc.save();
+    }
   }
 
   /// Deletes a task from a document

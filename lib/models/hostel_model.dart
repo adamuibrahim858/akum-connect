@@ -17,11 +17,7 @@ class Room {
   final String roomNumber;
   final List<Bed> beds;
 
-  Room({
-    required this.id,
-    required this.roomNumber,
-    required this.beds,
-  });
+  Room({required this.id, required this.roomNumber, required this.beds});
 }
 
 class Block {
@@ -29,11 +25,7 @@ class Block {
   final String name;
   final List<Room> rooms;
 
-  Block({
-    required this.id,
-    required this.name,
-    required this.rooms,
-  });
+  Block({required this.id, required this.name, required this.rooms});
 }
 
 // Mock Data Service
@@ -52,13 +44,25 @@ class HostelService {
                 id: 'A1',
                 bedNumber: 'Bed A1',
                 isAvailable: true,
-                facilities: ['Fan', 'Reading Table', 'Wardrobe', 'Electricity', 'Water'],
+                facilities: [
+                  'Fan',
+                  'Reading Table',
+                  'Wardrobe',
+                  'Electricity',
+                  'Water',
+                ],
               ),
               Bed(
                 id: 'A2',
                 bedNumber: 'Bed A2',
                 isAvailable: false,
-                facilities: ['Fan', 'Reading Table', 'Wardrobe', 'Electricity', 'Water'],
+                facilities: [
+                  'Fan',
+                  'Reading Table',
+                  'Wardrobe',
+                  'Electricity',
+                  'Water',
+                ],
               ),
             ],
           ),
@@ -70,13 +74,25 @@ class HostelService {
                 id: 'B1',
                 bedNumber: 'Bed B1',
                 isAvailable: true,
-                facilities: ['Fan', 'Reading Table', 'Wardrobe', 'Electricity', 'Water'],
+                facilities: [
+                  'Fan',
+                  'Reading Table',
+                  'Wardrobe',
+                  'Electricity',
+                  'Water',
+                ],
               ),
               Bed(
                 id: 'B2',
                 bedNumber: 'Bed B2',
                 isAvailable: true,
-                facilities: ['Fan', 'Reading Table', 'Wardrobe', 'Electricity', 'Water'],
+                facilities: [
+                  'Fan',
+                  'Reading Table',
+                  'Wardrobe',
+                  'Electricity',
+                  'Water',
+                ],
               ),
             ],
           ),
