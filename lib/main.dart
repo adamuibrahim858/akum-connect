@@ -18,6 +18,7 @@ import 'models/note_model.dart';
 import 'models/ai_tutor_model.dart';
 import 'pages/notes/notes_page.dart';
 import 'pages/ai_tutor/ai_tutor_page.dart';
+import 'pages/portal_webview_page.dart';
 import 'services/lecture_notification_service.dart';
 import 'services/exam_notification_service.dart';
 import 'services/school_knowledge_service.dart';
@@ -78,6 +79,7 @@ class MyApp extends StatelessWidget {
         '/notes': (context) => const NotesPage(),
         '/result': (context) => const ResultPage(),
         '/ai-tutor': (context) => const AITutorPage(),
+        '/portal': (context) => const PortalWebViewPage(),
       }, // home: Home(),
     );
   }

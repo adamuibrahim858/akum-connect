@@ -5,6 +5,7 @@ import 'news/news_list_page.dart';
 import 'ai_chat_page.dart';
 import 'hostel/hostel_page.dart';
 import 'course_registration/course_registration_page.dart';
+import 'portal_webview_page.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
 import '../models/timetable_entry.dart';
@@ -98,9 +99,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
-                                  student != null
-                                      ? student.course
-                                      : "Welcome to AKUM CONNECT",
+                                  "Welcome to AKUM CONNECT",
                                   style: const TextStyle(
                                     color: Colors.white70,
                                     fontSize: 14,
@@ -234,6 +233,23 @@ class _DashboardPageState extends State<DashboardPage> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => const CourseRegistrationPage(),
+                        ),
+                      );
+                    },
+                  ),
+                  dashboardCard(
+                    Icons.account_balance_rounded,
+                    "School Portal",
+                    Colors.blue.shade800,
+                    () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const PortalWebViewPage(
+                            initialUrl:
+                                'https://students.akum.edu.ng/student/login',
+                            title: 'School Portal',
+                          ),
                         ),
                       );
                     },

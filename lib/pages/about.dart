@@ -142,23 +142,17 @@ class _AboutPageState extends State<AboutPage> {
               onTap: () => _launchUrl('tel:07065106233'),
             ),
             _buildContactTile(
-              icon: Icons.phone,
-              title: 'Phone 2',
-              subtitle: '09034410185',
-              onTap: () => _launchUrl('tel:09034410185'),
-            ),
-            _buildContactTile(
               icon: Icons.email,
               title: 'Email',
-              subtitle: 'contact@example.com', // Placeholder if not provided
-              onTap: () => _launchUrl('mailto:contact@example.com'),
+              subtitle: 'adamuibrahim858@gmail.com', // Placeholder if not provided
+              onTap: () => _launchUrl('mailto:adamuibrahim858@gmail.com'),
             ),
             const Divider(),
             _buildContactTile(
               icon: Icons.link,
               title: 'GitHub',
-              subtitle: 'github.com/ibrahim',
-              onTap: () => _launchUrl('https://github.com/ibrahim'),
+              subtitle: 'https://github.com/adamuibrahim858',
+              onTap: () => _launchUrl('https://github.com/adamuibrahim858'),
             ),
           ],
         ),
@@ -215,8 +209,8 @@ class _AboutPageState extends State<AboutPage> {
             const SizedBox(height: 16),
             const Text(
               'Akum Connect is your all-in-one companion for student life. '
-              'Access your notes, timetables, exam schedules, and keep up with campus news '
-              'seamlessly.',
+              'Learn smarter with the AI Tutor, manage notes, access timetables and exam schedules, '
+              'and keep up with campus news seamlessly.',
               style: TextStyle(
                 fontSize: 15,
                 height: 1.5,
@@ -229,11 +223,14 @@ class _AboutPageState extends State<AboutPage> {
               style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
             ),
             const SizedBox(height: 8),
+            _buildBulletPoint('AI Tutor (Smart Learning Assistant & Quiz Generator)'),
             _buildBulletPoint('Student Profile Management'),
             _buildBulletPoint('Lecture & Exam Timetables'),
+            _buildBulletPoint('Course Registration & School Portal'),
             _buildBulletPoint('Note Taking & Organization'),
             _buildBulletPoint('Campus News & Updates'),
-            _buildBulletPoint('Real-time Notifications'),
+            _buildBulletPoint('Hostel Finder & Student Marketplace'),
+            _buildBulletPoint('Real-time Lecture Notifications'),
           ],
         ),
       ),

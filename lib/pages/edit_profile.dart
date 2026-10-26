@@ -111,6 +111,16 @@ class _EditProfilePageState extends State<EditProfilePage>
   }
 
   // ── Faculty / Department / Programme helpers ───────────────────────────────
+  List<String> get _facultyOptions {
+    final list = allFaculties.map((f) => f.facultyName).toList();
+    if (_selectedFacultyName != null &&
+        _selectedFacultyName!.isNotEmpty &&
+        !list.contains(_selectedFacultyName)) {
+      list.insert(0, _selectedFacultyName!);
+    }
+    return list;
+  }
+
   List<Department> get _availableDepartments {
     if (_selectedFacultyName == null) return [];
     try {
@@ -120,6 +130,16 @@ class _EditProfilePageState extends State<EditProfilePage>
     } catch (_) {
       return [];
     }
+  }
+
+  List<String> get _departmentOptions {
+    final list = _availableDepartments.map((d) => d.departmentName).toList();
+    if (_selectedDepartmentName != null &&
+        _selectedDepartmentName!.isNotEmpty &&
+        !list.contains(_selectedDepartmentName)) {
+      list.insert(0, _selectedDepartmentName!);
+    }
+    return list;
   }
 
   List<Programme> get _availableProgrammes {
@@ -135,6 +155,26 @@ class _EditProfilePageState extends State<EditProfilePage>
     } catch (_) {
       return [];
     }
+  }
+
+  List<String> get _programmeOptions {
+    final list = _availableProgrammes.map((p) => p.programmeName).toList();
+    if (_selectedProgrammeName != null &&
+        _selectedProgrammeName!.isNotEmpty &&
+        !list.contains(_selectedProgrammeName)) {
+      list.insert(0, _selectedProgrammeName!);
+    }
+    return list;
+  }
+
+  List<String> get _levelOptions {
+    final list = List<String>.from(_academicLevels);
+    if (_selectedLevel != null &&
+        _selectedLevel!.isNotEmpty &&
+        !list.contains(_selectedLevel)) {
+      list.add(_selectedLevel!);
+    }
+    return list;
   }
 
   // ── Image picker ──────────────────────────────────────────────────────────
@@ -232,6 +272,7 @@ class _EditProfilePageState extends State<EditProfilePage>
       await box.putAt(widget.index, updatedStudent);
 
       if (!mounted) return;
+      setState(() => _isSaving = false);
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -255,7 +296,9 @@ class _EditProfilePageState extends State<EditProfilePage>
         ),
       );
 
-      Navigator.pop(context, true);
+      if (Navigator.canPop(context)) {
+        Navigator.pop(context, true);
+      }
     } catch (e) {
       if (!mounted) return;
       setState(() => _isSaving = false);
@@ -380,9 +423,14 @@ class _EditProfilePageState extends State<EditProfilePage>
         File(_profileImagePath!).existsSync();
 
     return PopScope(
-      canPop: !_isSaving && !_hasUnsavedChanges,
+      canPop: false,
       onPopInvokedWithResult: (didPop, _) async {
         if (didPop) return;
+        if (_isSaving) return;
+        if (!_hasUnsavedChanges) {
+          if (context.mounted) Navigator.pop(context);
+          return;
+        }
         final shouldPop = await _handleWillPop();
         if (shouldPop && context.mounted) {
           Navigator.pop(context);
@@ -434,7 +482,7 @@ class _EditProfilePageState extends State<EditProfilePage>
                                     ),
                                     validator: (val) {
                                       if (val == null || val.trim().isEmpty) {
-                                        return 'Full name is required';
+                                        return 'Full Name is required';
                                       }
                                       if (val.trim().length < 3) {
                                         return 'Please enter your complete name';
@@ -542,7 +590,7 @@ class _EditProfilePageState extends State<EditProfilePage>
                                     ),
                                     isExpanded: true,
                                     borderRadius: BorderRadius.circular(14),
-                                    items: _academicLevels.map((lvl) {
+                                    items: _levelOptions.map((lvl) {
                                       return DropdownMenuItem<String>(
                                         value: lvl,
                                         child: Text(lvl),
@@ -559,6 +607,7 @@ class _EditProfilePageState extends State<EditProfilePage>
 
                                   // Faculty
                                   DropdownButtonFormField<String>(
+                                    key: ValueKey('faculty_$_selectedFacultyName'),
                                     initialValue: _selectedFacultyName,
                                     decoration: _inputDec(
                                       label: 'Faculty',
@@ -566,11 +615,11 @@ class _EditProfilePageState extends State<EditProfilePage>
                                     ),
                                     isExpanded: true,
                                     borderRadius: BorderRadius.circular(14),
-                                    items: allFaculties.map((f) {
+                                    items: _facultyOptions.map((fName) {
                                       return DropdownMenuItem<String>(
-                                        value: f.facultyName,
+                                        value: fName,
                                         child: Text(
-                                          f.facultyName,
+                                          fName,
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                       );
@@ -593,6 +642,7 @@ class _EditProfilePageState extends State<EditProfilePage>
 
                                   // Department
                                   DropdownButtonFormField<String>(
+                                    key: ValueKey('dept_${_selectedFacultyName}_$_selectedDepartmentName'),
                                     initialValue: _selectedDepartmentName,
                                     decoration: _inputDec(
                                       label: 'Department',
@@ -603,11 +653,11 @@ class _EditProfilePageState extends State<EditProfilePage>
                                     ),
                                     isExpanded: true,
                                     borderRadius: BorderRadius.circular(14),
-                                    items: _availableDepartments.map((d) {
+                                    items: _departmentOptions.map((deptName) {
                                       return DropdownMenuItem<String>(
-                                        value: d.departmentName,
+                                        value: deptName,
                                         child: Text(
-                                          d.departmentName,
+                                          deptName,
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                       );
@@ -631,6 +681,7 @@ class _EditProfilePageState extends State<EditProfilePage>
 
                                   // Programme
                                   DropdownButtonFormField<String>(
+                                    key: ValueKey('prog_${_selectedDepartmentName}_$_selectedProgrammeName'),
                                     initialValue: _selectedProgrammeName,
                                     decoration: _inputDec(
                                       label: 'Programme / Course',
@@ -641,11 +692,11 @@ class _EditProfilePageState extends State<EditProfilePage>
                                     ),
                                     isExpanded: true,
                                     borderRadius: BorderRadius.circular(14),
-                                    items: _availableProgrammes.map((p) {
+                                    items: _programmeOptions.map((progName) {
                                       return DropdownMenuItem<String>(
-                                        value: p.programmeName,
+                                        value: progName,
                                         child: Text(
-                                          p.programmeName,
+                                          progName,
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                       );

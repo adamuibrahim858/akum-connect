@@ -207,7 +207,10 @@ void main() {
       await tester.pump();
 
       // Tap Save Changes
-      await tester.tap(find.text('Save Changes'));
+      await tester.runAsync(() async {
+        await tester.tap(find.text('Save Changes'));
+        await Future.delayed(const Duration(milliseconds: 100));
+      });
       await tester.pumpAndSettle();
 
       expect(studentBox.getAt(0)!.fullName, 'Johnathan Doe');
