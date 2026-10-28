@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:open_filex/open_filex.dart';
 import '../../models/ai_tutor_model.dart';
 import '../../services/ai_tutor_storage_service.dart';
 import 'add_pdf_modal.dart';
@@ -237,7 +239,26 @@ class _AITutorPageState extends State<AITutorPage> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   onSelected: (value) async {
-                    if (value == 'delete') {
+                    if (value == 'open') {
+                      if (doc.pdfPath.isNotEmpty && File(doc.pdfPath).existsSync()) {
+                        final result = await OpenFilex.open(doc.pdfPath);
+                        if (result.type != ResultType.done && mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Could not open PDF: ${result.message}'),
+                              behavior: SnackBarBehavior.floating,
+                            ),
+                          );
+                        }
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('PDF file is not available locally.'),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                      }
+                    } else if (value == 'delete') {
                       final confirm = await showDialog<bool>(
                         context: context,
                         builder: (ctx) => AlertDialog(
@@ -274,6 +295,20 @@ class _AITutorPageState extends State<AITutorPage> {
                     }
                   },
                   itemBuilder: (context) => [
+                    const PopupMenuItem(
+                      value: 'open',
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.picture_as_pdf_outlined,
+                            color: Colors.blue,
+                            size: 20,
+                          ),
+                          SizedBox(width: 8),
+                          Text('Open PDF Document'),
+                        ],
+                      ),
+                    ),
                     const PopupMenuItem(
                       value: 'delete',
                       child: Row(

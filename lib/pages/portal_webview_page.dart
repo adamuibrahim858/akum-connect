@@ -232,6 +232,10 @@ class _PortalWebViewPageState extends State<PortalWebViewPage> {
     }
   }
 
+  void _goToDashboard() {
+    Navigator.of(context).pushNamedAndRemoveUntil('/dashboard', (route) => false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -332,6 +336,11 @@ class _PortalWebViewPageState extends State<PortalWebViewPage> {
             ],
           ),
           actions: [
+            IconButton(
+              icon: const Icon(Icons.home_rounded, color: Colors.white),
+              tooltip: 'Home / Dashboard',
+              onPressed: _goToDashboard,
+            ),
             if (_isPlatformSupported)
               IconButton(
                 icon: _isLoading
@@ -354,6 +363,9 @@ class _PortalWebViewPageState extends State<PortalWebViewPage> {
               ),
               onSelected: (value) {
                 switch (value) {
+                  case 'dashboard':
+                    _goToDashboard();
+                    break;
                   case 'browser':
                     _openInExternalBrowser();
                     break;
@@ -374,11 +386,20 @@ class _PortalWebViewPageState extends State<PortalWebViewPage> {
               },
               itemBuilder: (context) => [
                 const PopupMenuItem(
+                  value: 'dashboard',
+                  child: ListTile(
+                    dense: true,
+                    contentPadding: EdgeInsets.zero,
+                    leading: Icon(Icons.dashboard_rounded, color: Colors.green),
+                    title: Text('Return to Home/Dashboard'),
+                  ),
+                ),
+                const PopupMenuItem(
                   value: 'home',
                   child: ListTile(
                     dense: true,
                     contentPadding: EdgeInsets.zero,
-                    leading: Icon(Icons.home_outlined, color: Colors.green),
+                    leading: Icon(Icons.refresh_rounded, color: Colors.teal),
                     title: Text('Portal Login Home'),
                   ),
                 ),
@@ -515,10 +536,10 @@ class _PortalWebViewPageState extends State<PortalWebViewPage> {
                 child: SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(
-                    onPressed: _openInExternalBrowser,
-                    icon: const Icon(Icons.open_in_browser_rounded, size: 22),
+                    onPressed: _goToDashboard,
+                    icon: const Icon(Icons.home_rounded, size: 22),
                     label: const Text(
-                      "Open Portal in Browser",
+                      "Return to Dashboard",
                       style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     style: ElevatedButton.styleFrom(
@@ -529,6 +550,29 @@ class _PortalWebViewPageState extends State<PortalWebViewPage> {
                         borderRadius: BorderRadius.circular(14),
                       ),
                       elevation: 3,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 320),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: _openInExternalBrowser,
+                    icon: const Icon(Icons.open_in_browser_rounded, size: 20),
+                    label: const Text(
+                      "Open Portal in Browser",
+                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                    ),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: Colors.green.shade900,
+                      side: BorderSide(color: Colors.green.shade700),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
                     ),
                   ),
                 ),
@@ -782,8 +826,15 @@ class _PortalWebViewPageState extends State<PortalWebViewPage> {
             ),
             IconButton(
               icon: const Icon(Icons.home_rounded),
-              iconSize: 24,
+              iconSize: 26,
               color: Colors.green.shade800,
+              tooltip: 'Home / Dashboard',
+              onPressed: _goToDashboard,
+            ),
+            IconButton(
+              icon: const Icon(Icons.restart_alt_rounded),
+              iconSize: 24,
+              color: Colors.grey.shade700,
               tooltip: 'Portal Login',
               onPressed: () {
                 if (_controller != null) {

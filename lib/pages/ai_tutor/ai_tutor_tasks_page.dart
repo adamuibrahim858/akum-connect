@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:open_filex/open_filex.dart';
 import '../../models/ai_tutor_model.dart';
 import '../../services/ai_tutor_storage_service.dart';
 import 'add_task_dialog.dart';
@@ -316,6 +318,40 @@ class _AITutorTasksPageState extends State<AITutorTasksPage> {
                               ),
                             ],
                           ),
+                        ),
+                        IconButton(
+                          icon: const Icon(
+                            Icons.open_in_new_rounded,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                          tooltip: 'Open Original PDF',
+                          onPressed: () async {
+                            final messenger = ScaffoldMessenger.of(context);
+                            if (doc.pdfPath.isNotEmpty &&
+                                File(doc.pdfPath).existsSync()) {
+                              final res = await OpenFilex.open(doc.pdfPath);
+                              if (res.type != ResultType.done) {
+                                messenger.showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Could not open PDF: ${res.message}',
+                                    ),
+                                    behavior: SnackBarBehavior.floating,
+                                  ),
+                                );
+                              }
+                            } else {
+                              messenger.showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'PDF file is not available locally.',
+                                  ),
+                                  behavior: SnackBarBehavior.floating,
+                                ),
+                              );
+                            }
+                          },
                         ),
                       ],
                     ),

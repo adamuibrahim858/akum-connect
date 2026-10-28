@@ -5,6 +5,37 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 class SummaryPdfService {
+  /// Clean text so standard Helvetica font won't fail on Unicode characters
+  static String _cleanText(String input) {
+    if (input.isEmpty) return input;
+    return input
+        .replaceAll('•', '-')
+        .replaceAll('·', '-')
+        .replaceAll('—', '--')
+        .replaceAll('–', '-')
+        .replaceAll('“', '"')
+        .replaceAll('”', '"')
+        .replaceAll('‘', "'")
+        .replaceAll('’', "'")
+        .replaceAll('…', '...')
+        .replaceAll('«', '"')
+        .replaceAll('»', '"')
+        .replaceAll('™', '(TM)')
+        .replaceAll('©', '(C)')
+        .replaceAll('®', '(R)')
+        .replaceAll('°', ' deg')
+        .replaceAll('±', '+/-')
+        .replaceAll('×', 'x')
+        .replaceAll('÷', '/')
+        .replaceAll('≤', '<=')
+        .replaceAll('≥', '>=')
+        .replaceAll('≠', '!=')
+        .replaceAll('≈', '~')
+        .replaceAll('√', 'sqrt')
+        .replaceAll('\u00a0', ' ')
+        .replaceAll(RegExp(r'[^\x00-\x7E\r\n\t]'), ' ');
+  }
+
   /// Generates a professional branded PDF from the summary markdown content and saves it
   static Future<File> generateAndSaveSummaryPdf({
     required String summaryTitle,
@@ -14,12 +45,23 @@ class SummaryPdfService {
     final pdf = pw.Document();
 
     final formattedDate = DateFormat(
-      'MMMM d, y • h:mm a',
+      'MMMM d, y | h:mm a',
     ).format(DateTime.now());
 
+    final cleanTitle = _cleanText(summaryTitle).trim();
+    final cleanDocTitle = _cleanText(originalDocumentTitle).trim();
+
     // Clean filename
-    final safeFileName =
-        '${summaryTitle.replaceAll(RegExp(r'[^a-zA-Z0-9_\-]'), '_')}.pdf';
+    String safeFileName = cleanTitle
+        .replaceAll(RegExp(r'[^a-zA-Z0-9_\-\s]'), '')
+        .trim()
+        .replaceAll(RegExp(r'\s+'), '_');
+    if (safeFileName.isEmpty) {
+      safeFileName = 'AI_Tutor_Summary_${DateTime.now().millisecondsSinceEpoch}';
+    }
+    if (!safeFileName.toLowerCase().endsWith('.pdf')) {
+      safeFileName = '$safeFileName.pdf';
+    }
 
     // Parse markdown lines into PDF widgets
     final contentWidgets = _parseMarkdownToPdfWidgets(summaryMarkdown);
@@ -52,7 +94,7 @@ class SummaryPdfService {
                       ),
                     ),
                     pw.Text(
-                      'AI Tutor • Academic Study Note',
+                      'AI Tutor | Academic Study Note',
                       style: const pw.TextStyle(
                         fontSize: 9,
                         color: PdfColors.grey700,
@@ -97,7 +139,7 @@ class SummaryPdfService {
               mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
               children: [
                 pw.Text(
-                  'Original Source: $originalDocumentTitle',
+                  'Original Source: $cleanDocTitle',
                   style: const pw.TextStyle(
                     fontSize: 8,
                     color: PdfColors.grey600,
@@ -129,7 +171,7 @@ class SummaryPdfService {
                 crossAxisAlignment: pw.CrossAxisAlignment.start,
                 children: [
                   pw.Text(
-                    summaryTitle,
+                    cleanTitle,
                     style: pw.TextStyle(
                       fontSize: 18,
                       fontWeight: pw.FontWeight.bold,
@@ -148,7 +190,7 @@ class SummaryPdfService {
                         ),
                       ),
                       pw.Text(
-                        originalDocumentTitle,
+                        cleanDocTitle,
                         style: const pw.TextStyle(
                           fontSize: 10,
                           color: PdfColors.grey700,
@@ -168,14 +210,47 @@ class SummaryPdfService {
 
     // Save to persistent storage
     final outputDir = await _getStorageDirectory();
-    final file = File('${outputDir.path}/$safeFileName');
-    await file.writeAsBytes(await pdf.save());
+    var file = File('${outputDir.path}/$safeFileName');
+    if (await file.exists()) {
+      final base = safeFileName.substring(0, safeFileName.length - 4);
+      int counter = 1;
+      while (await file.exists()) {
+        file = File('${outputDir.path}/${base}_$counter.pdf');
+        counter++;
+      }
+    }
+
+    final bytes = await pdf.save();
+    await file.writeAsBytes(bytes, flush: true);
     return file;
   }
 
   static Future<Directory> _getStorageDirectory() async {
     try {
       if (Platform.isAndroid) {
+        // Try public Download directory first
+        final publicDownloadDir = Directory('/storage/emulated/0/Download');
+        if (await publicDownloadDir.exists()) {
+          try {
+            final testFile = File(
+              '${publicDownloadDir.path}/.test_${DateTime.now().millisecondsSinceEpoch}',
+            );
+            await testFile.writeAsString('test');
+            await testFile.delete();
+            return publicDownloadDir;
+          } catch (_) {
+            // Permission restricted, fall back
+          }
+        }
+
+        // Try standard getDownloadsDirectory if available
+        try {
+          final dlDir = await getDownloadsDirectory();
+          if (dlDir != null && await dlDir.exists()) {
+            return dlDir;
+          }
+        } catch (_) {}
+
         final extDir = await getExternalStorageDirectory();
         if (extDir != null) {
           final downloadDir = Directory('${extDir.path}/Download');
@@ -184,9 +259,24 @@ class SummaryPdfService {
           }
           return downloadDir;
         }
+      } else if (Platform.isIOS || Platform.isMacOS) {
+        return await getApplicationDocumentsDirectory();
+      } else {
+        // Linux / Windows
+        try {
+          final dlDir = await getDownloadsDirectory();
+          if (dlDir != null && await dlDir.exists()) {
+            return dlDir;
+          }
+        } catch (_) {}
       }
     } catch (_) {}
-    return await getApplicationDocumentsDirectory();
+
+    try {
+      return await getApplicationDocumentsDirectory();
+    } catch (_) {
+      return Directory.systemTemp;
+    }
   }
 
   static List<pw.Widget> _parseMarkdownToPdfWidgets(String markdown) {
@@ -194,11 +284,13 @@ class SummaryPdfService {
     final lines = markdown.split('\n');
 
     for (int i = 0; i < lines.length; i++) {
-      final line = lines[i].trim();
-      if (line.isEmpty) {
+      final rawLine = lines[i].trim();
+      if (rawLine.isEmpty) {
         widgets.add(pw.SizedBox(height: 6));
         continue;
       }
+
+      final line = _cleanText(rawLine);
 
       if (line.startsWith('# ')) {
         widgets.add(pw.SizedBox(height: 10));

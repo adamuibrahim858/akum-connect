@@ -1,7 +1,8 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:open_filex/open_filex.dart';
 import '../../models/ai_tutor_model.dart';
 import '../../services/summary_pdf_service.dart';
 
@@ -44,6 +45,35 @@ class _SummaryViewPageState extends State<SummaryViewPage> {
     super.dispose();
   }
 
+  Future<void> _openPdfFile(File file) async {
+    try {
+      final result = await OpenFilex.open(file.path);
+      if (result.type != ResultType.done && mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              result.type == ResultType.noAppToOpen
+                  ? 'No PDF reader app found. File saved at: ${file.path}'
+                  : 'Could not open PDF: ${result.message}',
+            ),
+            backgroundColor: Colors.orange.shade800,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Could not open PDF viewer: $e'),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    }
+  }
+
   Future<void> _handleDownloadPdf() async {
     setState(() {
       _isDownloadingPdf = true;
@@ -58,6 +88,8 @@ class _SummaryViewPageState extends State<SummaryViewPage> {
 
       if (!mounted) return;
 
+      final fileName = file.path.split('/').last;
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Row(
@@ -66,7 +98,7 @@ class _SummaryViewPageState extends State<SummaryViewPage> {
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  'Saved as PDF: ${file.path.split('/').last}',
+                  'Saved as PDF: $fileName',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -75,17 +107,11 @@ class _SummaryViewPageState extends State<SummaryViewPage> {
           ),
           backgroundColor: Colors.green.shade800,
           behavior: SnackBarBehavior.floating,
+          duration: const Duration(seconds: 6),
           action: SnackBarAction(
             label: 'Open',
             textColor: Colors.yellow,
-            onPressed: () async {
-              try {
-                final uri = Uri.file(file.path);
-                if (await canLaunchUrl(uri)) {
-                  await launchUrl(uri);
-                }
-              } catch (_) {}
-            },
+            onPressed: () => _openPdfFile(file),
           ),
         ),
       );

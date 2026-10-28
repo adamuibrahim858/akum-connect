@@ -188,12 +188,12 @@ class _DashboardPageState extends State<DashboardPage> {
           // Dashboard Grid
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
               child: GridView.count(
-                crossAxisCount: 3,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-                childAspectRatio: 0.88,
+                crossAxisCount: 2,
+                crossAxisSpacing: 14,
+                mainAxisSpacing: 14,
+                childAspectRatio: 1.25,
                 children: [
                   dashboardCard(Icons.person, "Profile", Colors.blue, () {
                     // debugPrint("Profile tapped");
@@ -322,16 +322,16 @@ class _DashboardPageState extends State<DashboardPage> {
   ) {
     return InkWell(
       onTap: onPressed,
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(18),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(18),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withValues(alpha: 0.15),
-              blurRadius: 6,
+              color: Colors.grey.withValues(alpha: 0.12),
+              blurRadius: 8,
               offset: const Offset(0, 3),
             ),
           ],
@@ -340,18 +340,18 @@ class _DashboardPageState extends State<DashboardPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircleAvatar(
-              backgroundColor: color.withValues(alpha: 0.1),
-              radius: 22,
-              child: Icon(icon, size: 24, color: color),
+              backgroundColor: color.withValues(alpha: 0.12),
+              radius: 26,
+              child: Icon(icon, size: 28, color: color),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 10),
             Text(
               title,
               textAlign: TextAlign.center,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
-                fontSize: 12,
+                fontSize: 14,
                 fontWeight: FontWeight.w600,
                 color: Colors.black87,
               ),
