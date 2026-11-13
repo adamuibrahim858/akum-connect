@@ -17,28 +17,17 @@ class LocalSchoolQaService {
 
   final Map<String, String> _answerCache = {};
 
-  // Confidence threshold
-  static const double _threshold = 0.35;
+  // Confidence threshold: raised from 0.35 to 0.70 to avoid loose false positives!
+  static const double _threshold = 0.70;
 
   static const Map<String, List<String>> _synonyms = {
-    'vc': ['vice', 'chancellor', 'prof', 'mohammed', 'aliyu', 'paiko'],
+    'vc': ['vice', 'chancellor'],
     'dvc': ['deputy', 'vice', 'chancellor'],
     'hod': ['head', 'department'],
     'dept': ['department'],
     'prof': ['professor'],
-    'csc': ['computer', 'science'],
-    'geo': ['geography'],
-    'mgt': ['management'],
-    'uni': ['university', 'school', 'akum', 'institution'],
-    'sch': ['school'],
-    'fac': ['faculty'],
-    'admin': ['administration'],
-    'exam': ['examination'],
-    'test': ['continuous', 'assessment', 'ca'],
-    'rules': ['regulations', 'conduct', 'misconduct'],
     'gpa': ['cgpa', 'grade', 'point'],
-    'loc': ['location', 'where'],
-    'dev': ['developer', 'created', 'built', 'trained'],
+    'rules': ['regulations', 'conduct', 'misconduct'],
   };
 
   /// Returns a formatted string of all school data for AI context
@@ -172,7 +161,7 @@ class LocalSchoolQaService {
       return _answerCache[normalizedQuestion];
     }
 
-    // 3. Standard Search across all datasets with Fuzzy Matching
+    // 3. Standard Search across structured school datasets (Faculties, Depts, Management, Buildings)
     List<_Match> allMatches = [];
     final queryTerms = _expandQuery(normalizedQuestion);
     debugPrint("🔍 LocalEngine: Query terms: $queryTerms");
@@ -183,14 +172,8 @@ class LocalSchoolQaService {
     // Search Exam Data
     allMatches.addAll(_searchExamData(queryTerms));
 
-    // Search About Data
-    allMatches.addAll(_searchAboutData(queryTerms));
-
-    // Search About App Data
-    allMatches.addAll(_searchAboutAppData(queryTerms));
-
     if (allMatches.isEmpty) {
-      debugPrint("❌ LocalEngine: No matches found.");
+      debugPrint("❌ LocalEngine: No structured data matches found.");
       return null;
     }
 
@@ -295,11 +278,41 @@ class LocalSchoolQaService {
       return _getSchoolHistory();
     }
 
-    // 9. About AKUM
-    if ((normalizedQ.contains('about') || normalizedQ.contains('what is')) &&
-        (normalizedQ.contains('akum') ||
-            normalizedQ.contains('school') ||
-            normalizedQ.contains('university'))) {
+    // VC & Specific Management Inquiry
+    if (normalizedQ.contains('vc') ||
+        normalizedQ.contains('vice chancellor') ||
+        (normalizedQ.contains('chancellor') && !normalizedQ.contains('pro'))) {
+      if (_schoolData != null && _schoolData!['management'] != null) {
+        final vcName = _schoolData!['management']['Vice Chancellor'];
+        if (vcName != null) {
+          return "The Vice Chancellor of Abdulkadir Kure University is **$vcName**.";
+        }
+      }
+    }
+    if (normalizedQ.contains('registrar')) {
+      if (_schoolData != null && _schoolData!['management'] != null) {
+        final name = _schoolData!['management']['Registrar'];
+        if (name != null) return "The Registrar of AKUM is **$name**.";
+      }
+    }
+    if (normalizedQ.contains('bursar')) {
+      if (_schoolData != null && _schoolData!['management'] != null) {
+        final name = _schoolData!['management']['Bursar'];
+        if (name != null) return "The Bursar of AKUM is **$name**.";
+      }
+    }
+
+    // 9. About AKUM (Must be strictly asking about the university as a whole, not a specific person or subject)
+    final words = normalizedQ.split(' ');
+    final isAskingAboutSchoolDirectly =
+        (words.length <= 5) &&
+        (normalizedQ == 'about akum' ||
+            normalizedQ == 'what is akum' ||
+            normalizedQ == 'tell me about akum' ||
+            normalizedQ == 'about the school' ||
+            normalizedQ == 'about the university');
+
+    if (isAskingAboutSchoolDirectly) {
       debugPrint("🎯 Intent: About AKUM");
       return _getAboutSummary();
     }
@@ -741,40 +754,7 @@ class LocalSchoolQaService {
     }
   }
 
-  List<_Match> _searchAboutData(List<String> queryTerms) {
-    if (_aboutData == null) return [];
-    List<_Match> matches = [];
 
-    final paragraphs = _aboutData!.split('\n\n');
-    for (var p in paragraphs) {
-      if (p.trim().isEmpty) continue;
-      double score = _calculateScore(queryTerms, p);
-      if (score > 0) {
-        matches.add(_Match(score: score, answer: p.trim()));
-      }
-    }
-    return matches;
-  }
-
-  List<_Match> _searchAboutAppData(List<String> queryTerms) {
-    if (_aboutAppData == null) return [];
-    List<_Match> matches = [];
-
-    final paragraphs = _aboutAppData!.split('\n\n');
-    for (var p in paragraphs) {
-      if (p.trim().isEmpty) continue;
-      double score = _calculateScore(queryTerms, p);
-      // Boost score for app-related questions if this file matches
-      if (p.toLowerCase().contains("app") ||
-          p.toLowerCase().contains("application")) {
-        score += 0.2;
-      }
-      if (score > 0) {
-        matches.add(_Match(score: score, answer: p.trim()));
-      }
-    }
-    return matches;
-  }
 }
 
 class _Match {

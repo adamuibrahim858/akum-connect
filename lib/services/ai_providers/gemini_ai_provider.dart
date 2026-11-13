@@ -55,6 +55,26 @@ class GeminiAiProvider implements AiProvider {
     }
   }
 
+  /// True token-by-token stream from Gemini to save wait time & improve responsiveness
+  Stream<String> sendMessageStream(String message) async* {
+    if (_model == null) {
+      _init();
+      if (_model == null) throw Exception('Gemini API Key missing');
+    }
+
+    try {
+      final stream = _chat!.sendMessageStream(Content.text(message));
+      await for (final chunk in stream) {
+        if (chunk.text != null && chunk.text!.isNotEmpty) {
+          yield chunk.text!;
+        }
+      }
+    } catch (e) {
+      debugPrint("❌ Gemini Stream Failed: $e");
+      rethrow;
+    }
+  }
+
   /// Direct generation support for educational tasks with optional multimodal PDF bytes
   Future<String> generatePrompt({
     required String prompt,

@@ -4,7 +4,7 @@ import 'marketplace/marketplace_page.dart';
 import 'news/news_list_page.dart';
 import 'ai_chat_page.dart';
 import 'hostel/hostel_page.dart';
-import 'course_registration/course_registration_page.dart';
+import 'nelfund/nelfund_page.dart';
 import 'portal_webview_page.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
@@ -225,14 +225,14 @@ class _DashboardPageState extends State<DashboardPage> {
                     },
                   ),
                   dashboardCard(
-                    Icons.app_registration,
-                    "Course Reg",
-                    Colors.cyan,
+                    Icons.account_balance_wallet_rounded,
+                    "NELFUND",
+                    const Color(0xFF008751),
                     () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const CourseRegistrationPage(),
+                          builder: (context) => const NelfundPage(),
                         ),
                       );
                     },
@@ -280,8 +280,8 @@ class _DashboardPageState extends State<DashboardPage> {
                     // debugPrint("Notes tapped");
                     Navigator.pushNamed(context, '/notes');
                   }),
-                  dashboardCard(Icons.store, "Market Place", Colors.indigo, () {
-                    // debugPrint("Market Place tapped");
+                  dashboardCard(Icons.storefront_rounded, "Campus Mall", Colors.indigo, () {
+                    // debugPrint("Campus Mall tapped");
                     Navigator.push(
                       context,
                       MaterialPageRoute(

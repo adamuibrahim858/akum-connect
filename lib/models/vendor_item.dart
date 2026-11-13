@@ -10,6 +10,16 @@ class VendorItem {
   final String phone;
   final String email;
 
+  // E-commerce enhancements (AliExpress, Jumia, Temu style)
+  final String category;
+  final String? originalPrice;
+  final double rating;
+  final int reviewsCount;
+  final String condition;
+  final String? badge;
+  final int soldCount;
+  final bool isFeatured;
+
   VendorItem({
     required this.id,
     required this.itemName,
@@ -21,11 +31,18 @@ class VendorItem {
     required this.department,
     required this.phone,
     required this.email,
+    this.category = 'All',
+    this.originalPrice,
+    this.rating = 4.8,
+    this.reviewsCount = 18,
+    this.condition = 'Like New',
+    this.badge,
+    this.soldCount = 12,
+    this.isFeatured = false,
   });
 
   factory VendorItem.fromJson(Map<String, dynamic> json) {
     String imagePath = json['item_image_path'] ?? '';
-    // Sanitise bad data from seeders
     if (imagePath.contains('placeholder.com')) {
       imagePath = '';
     }
@@ -43,15 +60,38 @@ class VendorItem {
       department: json['department'] ?? '',
       phone: json['phone'] ?? '',
       email: json['email'] ?? '',
+      category: json['category'] ?? 'All',
+      originalPrice: json['original_price']?.toString(),
+      rating: (json['rating'] is num) ? (json['rating'] as num).toDouble() : 4.8,
+      reviewsCount: json['reviews_count'] ?? 18,
+      condition: json['condition'] ?? 'Like New',
+      badge: json['badge'],
+      soldCount: json['sold_count'] ?? 12,
+      isFeatured: json['is_featured'] ?? false,
     );
   }
 
-  // Helper code to get the correct URL for display
+  // Calculate discount percentage if original price exists
+  int get discountPercentage {
+    if (originalPrice == null || originalPrice!.isEmpty) return 0;
+    try {
+      final cleanCurrent = double.parse(itemPrice.replaceAll(',', '').replaceAll('₦', '').trim());
+      final cleanOrig = double.parse(originalPrice!.replaceAll(',', '').replaceAll('₦', '').trim());
+      if (cleanOrig > cleanCurrent && cleanOrig > 0) {
+        return (((cleanOrig - cleanCurrent) / cleanOrig) * 100).round();
+      }
+    } catch (_) {}
+    return 0;
+  }
+
+  // Helper code to get display image URL
   String get fullImagePath {
-    if (itemImagePath.isEmpty) return '';
-    if (itemImagePath.startsWith('http')) return itemImagePath;
-    // Assuming relative path stored in DB needs storage prefix
-    // NOTE: This hostname should ideally come from a config, but hardcoding for now as per task
-    return 'https://akum-connect.mamat.com.ng/storage/$itemImagePath';
+    if (itemImagePath.isEmpty) {
+      return 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&q=80';
+    }
+    if (itemImagePath.startsWith('http://') || itemImagePath.startsWith('https://')) {
+      return itemImagePath;
+    }
+    return itemImagePath;
   }
 }

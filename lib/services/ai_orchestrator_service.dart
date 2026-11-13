@@ -36,6 +36,46 @@ class AiOrchestratorService {
     }
   }
 
+  /// Send message as stream. Tries Gemini stream first, then fallbacks.
+  Stream<String> sendMessageStream(String message) async* {
+    int attempts = 0;
+    final totalProviders = _providers.length;
+
+    while (attempts < totalProviders) {
+      final provider = _providers[_currentProviderIndex];
+      debugPrint("🤖 Orchestrator Stream: Trying ${provider.id}...");
+
+      try {
+        if (provider is GeminiAiProvider) {
+          await for (final chunk in provider.sendMessageStream(message)) {
+            yield chunk;
+          }
+          return;
+        } else {
+          final response = await provider.sendMessage(message);
+          yield response;
+          return;
+        }
+      } catch (e) {
+        debugPrint("❌ Orchestrator Stream: ${provider.id} failed: $e");
+        _currentProviderIndex = (_currentProviderIndex + 1) % _providers.length;
+        attempts++;
+      }
+    }
+
+    // Local Fallback
+    try {
+      final localResponse = await LocalSchoolQaService().tryAnswer(message);
+      if (localResponse != null) {
+        yield "$localResponse\n\n*(Offline Local School Assistant)*";
+      } else {
+        yield "I can currently answer questions related to Abdulkadir Kure University. Please check your internet connection or verify the question.";
+      }
+    } catch (_) {
+      yield "I am currently offline and could not retrieve an answer from the local database.";
+    }
+  }
+
   Future<String> sendMessage(String message) async {
     // Try providers starting from the current active one
     // We iterate through all providers starting from _currentProviderIndex

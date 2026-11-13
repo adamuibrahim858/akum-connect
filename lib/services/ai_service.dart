@@ -31,11 +31,9 @@ You are given access to school files located in assets/school data/.
    - Check "about_app_text" for questions about the specific mobile application, its developer, or features.
    - If the answer is found in the school/app data, answer CONFIDENTLY as the official AI. Do NOT mention "database" or "JSON".
 
-2. IF THE ANSWER IS NOT IN THE SCHOOL DATA:
-   - You may answer using general academic knowledge.
-   - BUT you MUST prepend this EXACT warning:
-     "⚠️ Note: This information is not from the official school database, but from general academic knowledge and may not be specific to Abdulkadir Kure University."
-   - Then provide the helpful general answer.
+2. IF THE ANSWER IS NOT IN THE SCHOOL DATA (such as general academic questions, definitions, science, computer science, mathematics, etc.):
+   - Answer the question directly and helpfully with high academic quality.
+   - DO NOT dump the school text or about app description. Answer what was actually asked!
 
 3. DO NOT hallucinate school-specific facts (like names, dates, or fees) if they are not in the file.
 
@@ -78,15 +76,12 @@ INSTRUCTIONS:
     if (!_isInitialized) await _init();
 
     try {
-      // Logic is handled by orchestrator, but orchestrator currently returns Future<String>.
-      // To support streaming, we would need the providers to support streaming.
-      // For now, we await the full response and yield it.
-
-      final response = await _orchestrator.sendMessage(message);
-      yield response;
+      await for (final chunk in _orchestrator.sendMessageStream(message)) {
+        yield chunk;
+      }
     } catch (e) {
       debugPrint("❌ Error during stream processing: $e");
-      yield "An error occurred while processing your request.";
+      yield "An error occurred while processing your request. Please try again.";
     }
   }
 }

@@ -10,6 +10,8 @@ import 'package:akum_connet/pages/exam_timetable.dart';
 import 'package:akum_connet/pages/about.dart';
 import 'package:akum_connet/pages/result_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'models/student_info.dart';
 import 'models/timetable_entry.dart';
@@ -46,6 +48,7 @@ void main() async {
   await Hive.openBox<TimetableEntry>('timetable'); // box for timetable
   await Hive.openBox<ExamModel>('exams'); // box for exams
   await Hive.openBox<Note>('notes'); // box for notes
+  await Hive.openBox<String>('ai_chat_box'); // box for AI chatbot messages and quota cache
   await Hive.openBox<AITutorDocument>(
     'ai_tutor_documents',
   ); // box for AI tutor docs
@@ -64,6 +67,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        FlutterQuillLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', ''),
+      ],
       // home: Home(),
       routes: {
         '/': (context) => const Home(),

@@ -4,6 +4,11 @@ class News {
   final String content;
   final String createdAt;
   final String? updatedAt;
+  final String imageUrl;
+  final String category;
+  final String author;
+  final int readTimeMinutes;
+  final bool isFeatured;
 
   News({
     required this.id,
@@ -11,15 +16,27 @@ class News {
     required this.content,
     required this.createdAt,
     this.updatedAt,
+    this.imageUrl = 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&q=80',
+    this.category = 'Campus News',
+    this.author = 'University Editorial Board',
+    this.readTimeMinutes = 3,
+    this.isFeatured = false,
   });
 
   factory News.fromJson(Map<String, dynamic> json) {
     return News(
-      id: json['id'],
+      id: json['id'] is int ? json['id'] : int.tryParse(json['id'].toString()) ?? 0,
       title: json['title'] ?? 'No Title',
       content: json['content'] ?? 'No Content',
       createdAt: json['created_at'] ?? '',
       updatedAt: json['updated_at'],
+      imageUrl: json['image_url'] ??
+          json['image'] ??
+          'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&q=80',
+      category: json['category'] ?? 'Campus News',
+      author: json['author'] ?? 'University Editorial Board',
+      readTimeMinutes: json['read_time_minutes'] ?? 3,
+      isFeatured: json['is_featured'] ?? false,
     );
   }
 }
